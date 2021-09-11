@@ -35,7 +35,7 @@ app.post('/', (request,response) => {
 
     }else{
         let Message = require('./models/message')
-        console.log("request non vide " )
+        console.log("request non vide !" )
         // Message.create(request.body.message, function (){
         //     request.flash('succes', "Merci !")
         //     response.redirect('/')
