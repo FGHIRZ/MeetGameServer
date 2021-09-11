@@ -4,10 +4,12 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "@mysql/xdevapi": "file:Libraries/mysql-connector-nodejs-8.0.26.tar.gz",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "mysqlconnector": "^1.0.20"
   },
   "devDependencies": {},
   "scripts": {

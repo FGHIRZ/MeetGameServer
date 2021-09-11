@@ -1,9 +1,7 @@
-let mysql      = require('mysql');
-let connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '1234',
-    database : 'my_schema'
-});
+let mysql = require('mysql');
+
+m
 
 connection.connect();
+
+module.exports = connection
