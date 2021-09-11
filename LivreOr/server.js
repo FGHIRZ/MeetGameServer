@@ -28,7 +28,13 @@ app.get('/', (request, response) => {
 })
 
 app.post('/', (request,response) => {
-    // if (request.body.message === undefined || request.body.message === ''){
+    // request.find(request.body, function (err, data) {
+    //     if (err) {
+    //         response.json(err.errors);
+    //     } else {
+    //         response.json(data);
+    //     }
+    // // if (request.body.message === undefined || request.body.message === ''){
     //     console.log("request vide ! ")
     //     // request.flash('error', "Vous n'avez pas posté de message")
     //     // response.redirect('/')
@@ -42,7 +48,7 @@ app.post('/', (request,response) => {
     //     //})
     // }
 
-    console.log(request)
+    console.log(request.body)
 
 })
 
