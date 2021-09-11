@@ -29,13 +29,13 @@ app.get('/', (request, response) => {
 
 app.post('/', (request,response) => {
     if (request.body.message === undefined || request.body.message === ''){
-
+        console.log("request vide ", request, response)
         request.flash('error', "Vous n'avez pas posté de message")
         response.redirect('/')
 
     }else{
         let Message = require('./models/message')
-        console.log(request, response)
+        console.log("request non vide " ,request, response)
         Message.create(request.body.message, function (){
             request.flash('succes', "Merci !")
             response.redirect('/')
