@@ -15,9 +15,12 @@ class Handler {
             })
         }
         if( request.body.request === "login"){
-            connection.query('DELETE * FROM DYNAMIC_USER_TABLE' ,  (err, result)=>{
-                console.log("DYNAMIC_USER_TABLE cleared")
+            connection.query('DELETE * FROM DYNAMIC_USER_TABLE', [ ], (err, result) => {
+                if (err) throw  err
+                console.log("DYNAMIC_USER_TABLE has been cleared")
             })
+
+
             let params = request.body.params
             let user_id = params.id
             let skin = ''
