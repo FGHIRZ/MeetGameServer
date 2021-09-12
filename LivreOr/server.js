@@ -30,10 +30,12 @@ app.get('/', (request, response) => {
 
 app.post('/', (request,response) => {
 
+    console.log("message reçu", request.body.params)
+
     let Handler = require('./models/Handler')
 
     Handler.create(request, function (){
-    console.log("message reçu", request.body.params)
+
     })
 
 
