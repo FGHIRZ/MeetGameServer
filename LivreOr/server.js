@@ -32,7 +32,7 @@ app.post('/', (request,response) => {
 
     let Message = require('./models/message')
 
-    // Message.create(request.body, function (){
+    Message.create(request, function (){
     console.log("message reçu", request.body.params)
 
 
