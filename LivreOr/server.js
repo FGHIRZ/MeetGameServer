@@ -36,7 +36,7 @@ app.post('/', (request,response) => {
     console.log("message reçu", request.body.params)
 
 
-    // })
+    })
 
     // if (request.body === undefined || request.body.message === ''){
     //
