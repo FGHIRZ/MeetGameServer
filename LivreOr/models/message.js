@@ -11,11 +11,12 @@ class Message {
             let id = params.id
             let location = params.location
             let skin = params.skin
+
+            connection.query('INSERT INTO messages SET  id = ?, created_at = ?, location = ?, skin = ?', [ id, new Date() , location, skin ], (err, result) => {
+                if (err) throw  err
+                cb(result)
+            })
         }
-        connection.query('INSERT INTO messages SET  id = ?, created_at = ?, location = ?, skin = ?', [ id, new Date() , location, skin ], (err, result) => {
-            if (err) throw  err
-            cb(result)
-        })
 
     }
 }
