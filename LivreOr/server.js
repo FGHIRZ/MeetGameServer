@@ -2,6 +2,7 @@ let express = require('express')
 let app = express()
 let bodyParser = require('body-parser')
 let session = require('express-session')
+const Message = require("./models/message");
 
 // Moteur de template
 app.set('view engine', 'ejs')
@@ -29,19 +30,26 @@ app.get('/', (request, response) => {
 
 app.post('/', (request,response) => {
 
-    if (request.body === undefined || request.body.message === ''){
+    let Message = require('./models/message')
 
-        // request.flash('error', "Vous n'avez pas posté de message")
-        // response.redirect('/')
+    Message.create(request.body, function (){
+        console.log("message reçu", request.body)
 
-    }else{
-        let Message = require('./models/message')
-
-        Message.create(request.body, function (){
-            // request.flash('succes', "Merci !")
-            // response.redirect('/')   <
-        })
-    }
+    })
+    // if (request.body === undefined || request.body.message === ''){
+    //
+    //     // request.flash('error', "Vous n'avez pas posté de message")
+    //     // response.redirect('/')
+    //
+    // }else{
+    //     let Message = require('./models/message')
+    //
+    //     Message.create(request.body, function (){
+    //         console.log("message reçu", request.body)
+    //         // request.flash('succes', "Merci !")
+    //         // response.redirect('/')   <
+    //     })
+    // }
 
 })
 
