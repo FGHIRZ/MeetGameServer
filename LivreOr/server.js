@@ -2,7 +2,7 @@ let express = require('express')
 let app = express()
 let bodyParser = require('body-parser')
 let session = require('express-session')
-const Message = require("./models/message");
+const Handler = require("./models/Handler");
 
 // Moteur de template
 app.set('view engine', 'ejs')
@@ -30,13 +30,12 @@ app.get('/', (request, response) => {
 
 app.post('/', (request,response) => {
 
-    let Message = require('./models/message')
+    let Handler = require('./models/Handler')
 
-    Message.create(request, function (){
+    Handler.create(request, function (){
     console.log("message reçu", request.body.params)
-
-
     })
+
 
     // if (request.body === undefined || request.body.message === ''){
     //
