@@ -54,7 +54,7 @@ app.post('/', (request,response) => {
     //     })
     // }
     response.writeHead(200,{"status": "ok"})
-
+    response.end()
 })
 
 app.listen(8080)
