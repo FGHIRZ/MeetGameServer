@@ -9,7 +9,8 @@ class Message {
         if( request.body.request === "update"){
             let params = request.body.params
             let id = params.id
-            let location = params.location
+            let lon = params.location.lon
+            let lat = params.location.lat
             let skin = params.skin
 
             connection.query('INSERT INTO messages SET  id = ?, created_at = ?, location = ?, skin = ?', [ id, new Date() , location, skin ], (err, result) => {
