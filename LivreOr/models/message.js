@@ -13,7 +13,7 @@ class Message {
             let lat = params.location.lat
             let skin = params.skin
 
-            connection.query('INSERT INTO messages SET  id = ?, created_at = ?, location = ?, skin = ?', [ id, new Date() , location, skin ], (err, result) => {
+            connection.query('INSERT INTO messages SET  id = ?, created_at = ?, lon = ?, lat = ?, skin = ?', [ id, new Date() , lon, lat, skin ], (err, result) => {
                 if (err) throw  err
                 cb(result)
             })
