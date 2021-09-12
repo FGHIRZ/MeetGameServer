@@ -32,10 +32,11 @@ app.post('/', (request,response) => {
 
     let Message = require('./models/message')
 
-    Message.create(request.body, function (){
-        console.log("message reçu", request.body)
+    // Message.create(request.body, function (){
+    console.log("message reçu", request.body)
 
-    })
+    // })
+
     // if (request.body === undefined || request.body.message === ''){
     //
     //     // request.flash('error', "Vous n'avez pas posté de message")
