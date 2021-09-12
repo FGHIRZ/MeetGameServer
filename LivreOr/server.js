@@ -24,12 +24,24 @@ app.use(require('./middleware/flash'))
 app.get('/', (request, response) => {
     console.log(request.body)
     console.log(request.session)
+    // response.render('pages/index', {test: 'Salut'})
 })
 
 app.post('/', (request,response) => {
 
-    console.log(request.body)
-    console.log(request.body.request)
+    if (request.body === undefined || request.body.message === ''){
+
+        // request.flash('error', "Vous n'avez pas posté de message")
+        // response.redirect('/')
+
+    }else{
+        let Message = require('./models/message')
+
+        Message.create(request.body, function (){
+            // request.flash('succes', "Merci !")
+            // response.redirect('/')   <
+        })
+    }
 
 })
 
