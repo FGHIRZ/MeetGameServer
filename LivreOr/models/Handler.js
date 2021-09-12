@@ -22,7 +22,7 @@ class Handler {
                 if (err) throw  err
                 skin = result
             })
-            connection.query('INSERT INTO DYNAMIC_USER_TABLE SET  user_id = ?, created_at = ?, lon = ?, lat = ?, skin = ?', [ user_id, new Date() , 0.0, 0.0, skin ], (err, result) => {
+            connection.query('INSERT INTO DYNAMIC_USER_TABLE SET  user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ?, skin = ?', [ user_id, new Date() , 0.0, 0.0, skin ], (err, result) => {
                 if (err) throw  err
                 cb(result)
             })
