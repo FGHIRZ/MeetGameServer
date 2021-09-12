@@ -53,6 +53,7 @@ app.post('/', (request,response) => {
     //         // response.redirect('/')   <
     //     })
     // }
+    response.writeHead(200,{"status": "ok"})
 
 })
 
