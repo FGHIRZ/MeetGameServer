@@ -26,13 +26,15 @@ class Handler {
             let skin = ''
             connection.query('SELECT skin FROM STATIC_USER_TABLE WHERE user_id = ? ', [ user_id ], (err, result) => {
                 if (err) throw  err
+
                 skin = result[0].skin
                 console.log(result, result[0], result[0].skin)
+                connection.query('INSERT INTO DYNAMIC_USER_TABLE SET  user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ?, skin = ?', [ user_id, new Date() , 0.0, 0.0, skin ], (err, result) => {
+                    if (err) throw  err
+                    cb(result)
+                })
             })
-            connection.query('INSERT INTO DYNAMIC_USER_TABLE SET  user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ?, skin = ?', [ user_id, new Date() , 0.0, 0.0, skin ], (err, result) => {
-                if (err) throw  err
-                cb(result)
-            })
+
         }
 
     }
