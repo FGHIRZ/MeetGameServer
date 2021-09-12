@@ -15,13 +15,16 @@ class Handler {
             })
         }
         if( request.body.request === "login"){
+            connection.query('DELETE * FROM DYNAMIC_USER_TABLE' ,  (err, result)=>{
+                console.log("DYNAMIC_USER_TABLE cleared")
+            })
             let params = request.body.params
             let user_id = params.id
             let skin = ''
             connection.query('SELECT skin FROM STATIC_USER_TABLE WHERE user_id = ? ', [ user_id ], (err, result) => {
                 if (err) throw  err
                 skin = result.skin
-                console.log(result)
+                console.log(result.skin)
             })
             connection.query('INSERT INTO DYNAMIC_USER_TABLE SET  user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ?, skin = ?', [ user_id, new Date() , 0.0, 0.0, skin ], (err, result) => {
                 if (err) throw  err
