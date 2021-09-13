@@ -45,9 +45,9 @@ app.post('/', (request,response) => {
 
             break;
         case 'update':
-            Handler.update(request, function (result){
-                response.writeHead(200,result)
-                response.end()
+            Handler.update(request, function (){
+                // response.writeHead(200,result)
+                // response.end()
             })
             break;
 
