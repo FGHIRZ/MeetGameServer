@@ -49,7 +49,7 @@ class Handler {
 
 
     static converter (result){
-        // result  = JSON.parse(JSON.stringify(result));
+        result  = JSON.parse(JSON.stringify(result));
         console.log(result)
         return result
     }
