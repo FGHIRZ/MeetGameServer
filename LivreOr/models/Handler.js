@@ -60,7 +60,7 @@ class Handler {
 
         user_list  = JSON.parse(JSON.stringify(result));
         output = {
-          "status" : "ok"
+          "status" : "ok",
           "params" : user_list
         }
 
