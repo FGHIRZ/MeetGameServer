@@ -2,6 +2,18 @@ let connection = require('../config/db')
 
 class Handler {
 
+    static clean_dynamic_tables (request, cb) {
+
+        // connection.query('DELETE FROM DYNAMIC_USER_TABLE', [ ], (err, result) => {
+        //     if (err) throw  err
+        //     console.log("DYNAMIC_USER_TABLE has been cleared")
+        // })
+
+        connection.query('DELETE * FROM DYNAMIC_USER_TABLE', [], (err, result) => {
+            if (err) throw  err
+            })
+    }
+
     static login (request, cb) {
 
         // connection.query('DELETE FROM DYNAMIC_USER_TABLE', [ ], (err, result) => {
@@ -19,7 +31,7 @@ class Handler {
             console.log(result, result[0], result[0].skin)
             connection.query('INSERT INTO DYNAMIC_USER_TABLE SET user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ?, skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, lon = ?, lat = ?, skin = ?', [ user_id, new Date() , 0.0, 0.0, skin,  new Date() , 0.0, 0.0, skin ],(err, result) => {
                 if (err) throw  err
-                cb(result)
+                cb()
             })
         })
     }
@@ -37,18 +49,23 @@ class Handler {
 
         connection.query('SELECT * FROM DYNAMIC_USER_TABLE', (err, result) => {
             if (err) throw err
-            let converted_result = this.converter(result)
-            cb (converted_result)
+            let response = this.converter(result)
+            cb (response)
         })
-
 
     }
 
 
     static converter (result){
-        result  = JSON.parse(JSON.stringify(result));
-        console.log(result)
-        return result
+
+        user_list  = JSON.parse(JSON.stringify(result));
+        output = {
+          "status" : "ok"
+          "params" : user_list
+        }
+
+        console.log(output)
+        return output
     }
 
 

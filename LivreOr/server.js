@@ -40,16 +40,30 @@ app.post('/', (request,response) => {
     switch (request_type) {
         case 'login':
             Handler.login(request, function (){
-
+              response.writeHead(200,{"status" : "ok"})
+              response.end()
             })
 
             break;
         case 'update':
-            Handler.update(request, function (){
-                // response.writeHead(200,result)
-                // response.end()
+            Handler.update(request, function (user_list){
+                response.writeHead(200,user_list)
+                response.end()
             })
             break;
+
+       case 'create_event':
+                    //Handler.update(request, function (){
+                        // response.writeHead(200,result)
+                        // response.end()
+                    })
+                    break;
+        case 'create_account':
+                //Handler.update(request, function (){
+                    // response.writeHead(200,result)
+                    // response.end()
+                })
+                break;
 
         default:
             console.log("this request isn't recognized");
