@@ -69,9 +69,6 @@ app.post('/', (request,response) => {
             console.log("this request isn't recognized");
     }
 
-
-
-
     // if (request.body === undefined || request.body.message === ''){
     //
     //     // request.flash('error', "Vous n'avez pas posté de message")
@@ -86,8 +83,6 @@ app.post('/', (request,response) => {
     //         // response.redirect('/')   <
     //     })
     // }
-    response.writeHead(200,{"status": "ok"})
-    response.end()
 })
 
 console.log('server is running on port 8080')

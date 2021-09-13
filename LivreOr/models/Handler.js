@@ -11,11 +11,6 @@ class Handler {
 
     static login (request, cb) {
 
-        // connection.query('DELETE FROM DYNAMIC_USER_TABLE', [ ], (err, result) => {
-        //     if (err) throw  err
-        //     console.log("DYNAMIC_USER_TABLE has been cleared")
-        // })
-
         let params = request.body.params
         let user_id = params.id
         let skin = ''
