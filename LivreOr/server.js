@@ -48,7 +48,7 @@ app.post('/', (request,response) => {
         case 'update':
             Handler.update(request, function (user_list){
               response.setHeader('Content-Type', 'application/json');
-              response.end("{'status' : 'ok'}")
+              response.end(JSON.stringify(user_list))
             })
             break;
 
