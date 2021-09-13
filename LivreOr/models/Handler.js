@@ -34,7 +34,7 @@ class Handler {
         let lon = params.location.lon
         let lat = params.location.lat
 
-        connection.query('INSERT INTO DYNAMIC_USER_TABLE SET  user_id = ?, created_at = ?, lon = ?, lat = ? ', [user_id, new Date(), lon, lat], (err, result) => {
+        connection.query('UPDATE DYNAMIC_USER_TABLE SET  user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ? ', [user_id, new Date(), lon, lat], (err, result) => {
             if (err) throw  err
         })
 
