@@ -41,14 +41,14 @@ app.post('/', (request,response) => {
             Handler.login(request, function (){
               console.log("doing that");
               res.setHeader('Content-Type', 'application/json');
-              response.end("{'status' : 'ok'}"
+              response.end("{'status' : 'ok'}")
             })
 
             break;
         case 'update':
             Handler.update(request, function (user_list){
               res.setHeader('Content-Type', 'application/json');
-              response.end("{'status' : 'ok'}"
+              response.end("{'status' : 'ok'}")
             })
             break;
 
