@@ -17,10 +17,7 @@ class Handler {
 
             skin = result[0].skin
             console.log(result, result[0], result[0].skin)
-            connection.query('INSERT INTO DYNAMIC_USER_TABLE SET  user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ?, skin = ? \
-            ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, lon = ?, lat = ?, skin = ?',
-            [ user_id, new Date() , 0.0, 0.0, skin,  new Date() , 0.0, 0.0, skin ],
-            (err, result) => {
+            connection.query('INSERT INTO DYNAMIC_USER_TABLE SET user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ?, skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, lon = ?, lat = ?, skin = ?', [ user_id, new Date() , 0.0, 0.0, skin,  new Date() , 0.0, 0.0, skin ],(err, result) => {
                 if (err) throw  err
                 cb(result)
             })
