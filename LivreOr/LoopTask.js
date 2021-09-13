@@ -13,10 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 
 app.use(session({
-  secret: 'secretkey',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+    secret: 'secretkey',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }))
 
 app.use(require('./middleware/flash'))
