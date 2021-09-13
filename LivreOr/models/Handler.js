@@ -48,7 +48,7 @@ class Handler {
     static converter (result){
 
         let user_list  = JSON.parse(JSON.stringify(result));
-        output = {
+        let output = {
           "status" : "ok",
           "params" : user_list
         }
