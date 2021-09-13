@@ -36,8 +36,27 @@ class Handler {
 
         connection.query('INSERT INTO DYNAMIC_USER_TABLE SET  id = ?, created_at = ?, lon = ?, lat = ? ', [user_id, new Date(), lon, lat], (err, result) => {
             if (err) throw  err
-            cb(result)
         })
+
+        connection.query('SELECT * FROM DYNAMIC_USER_TABLE', (err, result) => {
+            if (err) throw err
+            let converted_result = self.converter(result)
+            cb (converted_result)
+        })
+
+
+    }
+
+
+    static converter (result){
+        result  = JSON.parse(JSON.stringify(result));
+        console.log(result)
+        return result
+    }
+
+
+
+    static create_account(request, cb){
 
     }
 }

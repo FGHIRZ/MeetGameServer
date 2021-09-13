@@ -42,10 +42,12 @@ app.post('/', (request,response) => {
             Handler.login(request, function (){
 
             })
+
             break;
         case 'update':
-            Handler.update(request, function (){
-
+            Handler.update(request, function (result){
+                response.writeHead(200,result)
+                response.end()
             })
             break;
 
