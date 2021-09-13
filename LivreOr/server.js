@@ -34,9 +34,26 @@ app.post('/', (request,response) => {
 
     let Handler = require('./models/Handler')
 
-    Handler.create(request, function (){
+    let request_type = request.body.request
+    console.log("A request of type : ", request_type, " as been received")
 
-    })
+    switch (request_type) {
+        case 'login':
+            Handler.login(request, function (){
+
+            })
+            break;
+        case 'update':
+            Handler.update(request, function (){
+
+            })
+            break;
+
+        default:
+            console.log("this request isn't recognized");
+    }
+
+
 
 
     // if (request.body === undefined || request.body.message === ''){
