@@ -40,15 +40,15 @@ app.post('/', (request,response) => {
         case 'login':
             Handler.login(request, function (){
               console.log("doing that");
-              response.writeHead(200,{"status" : "ok"})
-              response.end()
+              res.setHeader('Content-Type', 'application/json');
+              response.end("{'status' : 'ok'}"
             })
 
             break;
         case 'update':
             Handler.update(request, function (user_list){
-                response.writeHead(200,user_list)
-                response.end()
+              res.setHeader('Content-Type', 'application/json');
+              response.end("{'status' : 'ok'}"
             })
             break;
 
