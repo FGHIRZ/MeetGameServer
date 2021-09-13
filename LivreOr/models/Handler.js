@@ -40,7 +40,7 @@ class Handler {
 
         connection.query('SELECT * FROM DYNAMIC_USER_TABLE', (err, result) => {
             if (err) throw err
-            let converted_result = self.converter(result)
+            let converted_result = this.converter(result)
             cb (converted_result)
         })
 
