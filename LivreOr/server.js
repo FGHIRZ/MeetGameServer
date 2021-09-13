@@ -56,13 +56,13 @@ app.post('/', (request,response) => {
                     //Handler.update(request, function (){
                         // response.writeHead(200,result)
                         // response.end()
-                    })
+                    //})
                     break;
         case 'create_account':
                 //Handler.update(request, function (){
                     // response.writeHead(200,result)
                     // response.end()
-                })
+                //})
                 break;
 
         default:
