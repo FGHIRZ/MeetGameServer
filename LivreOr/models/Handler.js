@@ -36,7 +36,7 @@ class Handler {
             if (err) throw  err
         })
 
-        connection.query('SELECT * FROM DYNAMIC_USER_TABLE', (err, result) => {
+        connection.query('SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> ?', [user_id], (err, result) => {
             if (err) throw err
             let response = this.converter(result)
             cb (response)
