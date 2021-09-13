@@ -2,12 +2,7 @@ let connection = require('../config/db')
 
 class Handler {
 
-    static clean_dynamic_tables (request, cb) {
-
-        // connection.query('DELETE FROM DYNAMIC_USER_TABLE', [ ], (err, result) => {
-        //     if (err) throw  err
-        //     console.log("DYNAMIC_USER_TABLE has been cleared")
-        // })
+    static clean_dynamic_tables () {
 
         connection.query('DELETE * FROM DYNAMIC_USER_TABLE', [], (err, result) => {
             if (err) throw  err

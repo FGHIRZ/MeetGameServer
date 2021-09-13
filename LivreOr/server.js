@@ -32,8 +32,7 @@ app.post('/', (request,response) => {
 
     console.log("message reçu", request.body.params)
 
-    let Handler = require('./models/Handler')
-
+    //let Handler = require('./models/Handler')
     let request_type = request.body.request
     console.log("A request of type : ", request_type, " as been received")
 
@@ -90,5 +89,9 @@ app.post('/', (request,response) => {
     response.writeHead(200,{"status": "ok"})
     response.end()
 })
+
 console.log('server is running on port 8080')
+console.log('cleaning dynamic tables')
+Handler.clean_dynamic_tables()
+
 app.listen(8080)
