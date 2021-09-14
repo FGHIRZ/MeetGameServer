@@ -37,8 +37,8 @@ class Handler {
               })
             }
             else{
-               skin = result[0].skin
-               user_id = result[0]
+               skin = result_select[0].skin
+               user_id = result_select[0]
                var sql = "INSERT IGNORE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
                connection.query(sql,(err, result) => {
                    if (err) throw  err
