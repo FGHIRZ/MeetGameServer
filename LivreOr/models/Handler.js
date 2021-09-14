@@ -22,8 +22,7 @@ class Handler {
             {
               var sql = "INSERT INTO INTO STATIC_USER_TABLE (name, skin, password) VALUES (' " + name + "', 'skin1', '1234')"
               connection.query(sql, (err, result) => {
-                if (err) throw  err
-                console.log("test", result)
+                  if (err) throw  err
               })
             }
             else{
