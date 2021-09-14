@@ -15,14 +15,14 @@ class Handler {
         let name = params.name
         let skin = ''
         let user_id = ''
-        var sql = "SELECT * FROM STATIC_USER_TABLE"
+        var sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         console.log(sql)
         connection.query(sql, (err, result_select) => {
             if (err) throw  err
             console.log(result_select)
             if (result_select.length == 0)
             {
-              var sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES (' " + name + "', 'skin1', '1234')"
+              var sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "', 'skin1', '1234')"
               connection.query(sql, (err, result) => {
                   if (err) throw  err
                   console.log(result.insertId);
