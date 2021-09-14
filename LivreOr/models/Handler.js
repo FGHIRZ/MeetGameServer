@@ -16,7 +16,7 @@ class Handler {
         let skin = ''
         let user_id = ''
         var sql = "SELECT (skin, user_id) FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        connection.query(sql (err, result_select) => {
+        connection.query(sql, (err, result_select) => {
             if (err) throw  err
             console.log(result_select)
             if (result_select.length == 0)
