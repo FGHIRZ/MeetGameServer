@@ -18,18 +18,7 @@ class Handler {
         console.log("params", name)
         connection.query('SELECT skin, user_id FROM STATIC_USER_TABLE WHERE name = ? ', [ name ], (err, result) => {
             if (err) throw  err
-            if (result.length == 0)
-            {
-              connection.query('INSERT INTO STATIC_USER_TABLE SET name = ? skin = ? password = ?', [name, "skin1", "1234"],(err, result) => {
-                if (err) throw  err
-                console.log("test", result)
-              })
-            }
-            else{
-               skin = result[0].skin
-               user_id = result[0]
-            }
-
+            
             connection.query('INSERT INTO DYNAMIC_USER_TABLE SET user_id = ?, TimeStampRefresh = ? skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, skin = ?', [ user_id, new Date(),skin,  new Date(), skin ],(err, result) => {
                 if (err) throw  err
                 cb()
