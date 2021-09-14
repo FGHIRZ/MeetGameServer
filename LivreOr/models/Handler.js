@@ -50,7 +50,7 @@ class Handler {
     static make_login_callback_json(user_id, skin)
     {
       let params = {
-        "user_id" : user_id
+        "user_id" : user_id,
         "skin" : skin
       }
       let output = {
