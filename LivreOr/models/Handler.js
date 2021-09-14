@@ -12,13 +12,24 @@ class Handler {
     static login (request, cb) {
 
         let params = request.body.params
-        let user_id = params.id
+        let name = params.name
         let skin = ''
-        connection.query('SELECT skin FROM STATIC_USER_TABLE WHERE user_id = ? ', [ user_id ], (err, result) => {
+        let user_id = ''
+        connection.query('SELECT skin, user_id FROM STATIC_USER_TABLE WHERE name = ? ', [ name ], (err, result) => {
             if (err) throw  err
+            if (result.length == 0)
+            {
+              connection.query('INSERT INTO STATIC_USER_TABLE SET name = ? skin = ? password = ?', [name, "skin1", "1234", name, "skin1", "1234"],(err, result) => {
+                if (err) throw  err
+                console.log("test", result)
+              }
+            }
+            else{
+               skin = result[0].skin
+               user_id = result[0]
+            }
 
-            skin = result[0].skin
-            connection.query('INSERT INTO DYNAMIC_USER_TABLE SET user_id = ?, TimeStampRefresh = ?, lon = ?, lat = ?, skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, lon = ?, lat = ?, skin = ?', [ user_id, new Date() , 0.0, 0.0, skin,  new Date() , 0.0, 0.0, skin ],(err, result) => {
+            connection.query('INSERT INTO DYNAMIC_USER_TABLE SET user_id = ?, TimeStampRefresh = ? skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, skin = ?', [ user_id, new Date(),skin,  new Date(), skin ],(err, result) => {
                 if (err) throw  err
                 cb()
             })
