@@ -23,17 +23,18 @@ class Handler {
               var sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES (' " + name + "', 'skin1', '1234')"
               connection.query(sql, (err, result) => {
                   if (err) throw  err
-                  console.log(result.insertedId);
+                  console.log(result.insertId);
+                  connection.query('INSERT INTO DYNAMIC_USER_TABLE VALUES user_id = ?, TimeStampRefresh = ? skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, skin = ?', [ user_id, new Date(),skin,  new Date(), skin ],(err, result) => {
+                      if (err) throw  err
+                  })
+                  cb()
               })
             }
             else{
                skin = result[0].skin
                user_id = result[0]
             }
-            connection.query('INSERT INTO DYNAMIC_USER_TABLE SET user_id = ?, TimeStampRefresh = ? skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, skin = ?', [ user_id, new Date(),skin,  new Date(), skin ],(err, result) => {
-                if (err) throw  err
-                cb()
-            })
+
         })
     }
 
