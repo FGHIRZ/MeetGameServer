@@ -24,6 +24,7 @@ class Handler {
               connection.query(sql, (err, result) => {
                   if (err) throw  err
                   console.log(result.insertId);
+                  skin='skin1'
                   connection.query('INSERT INTO DYNAMIC_USER_TABLE VALUES user_id = ?, TimeStampRefresh = ? skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, skin = ?', [ user_id, new Date(),skin,  new Date(), skin ],(err, result) => {
                       if (err) throw  err
                   })
