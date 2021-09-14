@@ -26,7 +26,8 @@ class Handler {
                   console.log(result.insertId);
                   skin='skin1'
                   user_id=result.insertId
-                  connection.query('INSERT INTO DYNAMIC_USER_TABLE VALUES user_id = ?, TimeStampRefresh = ? skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, skin = ?', [ user_id, new Date(),skin,  new Date(), skin ],(err, result) => {
+                  var sql = "INSERT IGNORE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
+                  connection.query(sql,(err, result) => {
                       if (err) throw  err
                   })
                   cb()
