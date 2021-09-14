@@ -18,7 +18,7 @@ class Handler {
         console.log("params", name)
         connection.query('SELECT skin, user_id FROM STATIC_USER_TABLE WHERE name = ? ', [ name ], (err, result_select) => {
             if (err) throw  err
-            console.log(result.length)
+            console.log(result_select.length)
             if (result_select.length == 0)
             {
               var sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES (' " + name + "', 'skin1', '1234')"
