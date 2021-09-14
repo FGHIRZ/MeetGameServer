@@ -18,6 +18,7 @@ class Handler {
         console.log("params", name)
         connection.query('SELECT skin, user_id FROM STATIC_USER_TABLE WHERE name = ? ', [ name ], (err, result_select) => {
             if (err) throw  err
+            console.log(result.length)
             if (result_select.length == 0)
             {
               var sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES (' " + name + "', 'skin1', '1234')"
@@ -30,7 +31,7 @@ class Handler {
                   connection.query(sql,(err, result) => {
                       if (err) throw  err
                   })
-                  response = make_login_callback_json(user_id, skin)
+                  response = this.make_login_callback_json(user_id, skin)
                   cb(response)
               })
             }
@@ -41,7 +42,7 @@ class Handler {
                connection.query(sql,(err, result) => {
                    if (err) throw  err
                })
-               response = make_login_callback_json(user_id, skin)
+               response = this.make_login_callback_json(user_id, skin)
                cb(response)
             }
 
