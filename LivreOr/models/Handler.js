@@ -36,9 +36,29 @@ class Handler {
             else{
                skin = result[0].skin
                user_id = result[0]
+               var sql = "INSERT IGNORE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
+               connection.query(sql,(err, result) => {
+                   if (err) throw  err
+               })
+               response = make_login_callback_json(user_id, skin)
+               cb(response)
             }
 
         })
+    }
+
+    static make_login_callback_json(user_id, skin)
+    {
+      let params = {
+        "user_id" : user_id
+        "skin" : skin
+      }
+      let output = {
+        "status" : "ok",
+        "params" : params
+      }
+      return output
+
     }
 
     static update (request, cb) {
@@ -54,14 +74,14 @@ class Handler {
 
         connection.query('SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> ?', [user_id], (err, result) => {
             if (err) throw err
-            let response = this.converter(result)
+            let response = this.make_update_json(result)
             cb (response)
         })
 
     }
 
 
-    static converter (result){
+    static make_update_json (result){
 
         let user_list  = JSON.parse(JSON.stringify(result));
         let output = {
