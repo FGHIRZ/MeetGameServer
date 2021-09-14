@@ -19,6 +19,7 @@ class Handler {
             if (err) throw  err
             if (result.length == 0)
             {
+              console.log("params", name)
               connection.query('INSERT INTO STATIC_USER_TABLE SET name = ? skin = ? password = ?', [name, "skin1", "1234"],(err, result) => {
                 if (err) throw  err
                 console.log("test", result)
