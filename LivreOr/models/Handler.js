@@ -16,20 +16,20 @@ class Handler {
         let skin = ''
         let user_id = ''
         console.log("params", name)
-        connection.query('SELECT skin, user_id FROM STATIC_USER_TABLE WHERE name = ? ', [ name ], (err, result) => {
+        connection.query('SELECT skin, user_id FROM STATIC_USER_TABLE WHERE name = ? ', [ name ], (err, result_select) => {
             if (err) throw  err
-            if (result.length == 0)
+            if (result_select.length == 0)
             {
               var sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES (' " + name + "', 'skin1', '1234')"
               connection.query(sql, (err, result) => {
                   if (err) throw  err
+                  console.log(result);
               })
             }
             else{
                skin = result[0].skin
                user_id = result[0]
             }
-
             connection.query('INSERT INTO DYNAMIC_USER_TABLE SET user_id = ?, TimeStampRefresh = ? skin = ? ON DUPLICATE KEY UPDATE TimeStampRefresh = ?, skin = ?', [ user_id, new Date(),skin,  new Date(), skin ],(err, result) => {
                 if (err) throw  err
                 cb()
