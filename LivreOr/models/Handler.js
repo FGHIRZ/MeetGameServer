@@ -22,7 +22,7 @@ class Handler {
               connection.query('INSERT INTO STATIC_USER_TABLE SET name = ? skin = ? password = ?', [name, "skin1", "1234", name, "skin1", "1234"],(err, result) => {
                 if (err) throw  err
                 console.log("test", result)
-              }
+              })
             }
             else{
                skin = result[0].skin
