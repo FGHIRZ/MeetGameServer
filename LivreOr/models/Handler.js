@@ -15,7 +15,7 @@ class Handler {
         let name = params.name
         let skin = ''
         let user_id = ''
-        var sql = "SELECT skin, user_id FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        var sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         console.log(sql)
         connection.query(sql, (err, result_select) => {
             if (err) throw  err
