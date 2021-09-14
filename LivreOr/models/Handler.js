@@ -30,7 +30,8 @@ class Handler {
                   connection.query(sql,(err, result) => {
                       if (err) throw  err
                   })
-                  cb()
+                  response = make_login_callback_json(user_id, skin)
+                  cb(response)
               })
             }
             else{
