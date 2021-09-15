@@ -31,7 +31,9 @@ class Handler {
           {
             console.log("sending ok")
             console.log(user)
+            update_dynamic_user_table(user.user_id, user.skin)
             let response = json_maker.login(user)
+            u
             cb(response)
           }
           else {
@@ -51,7 +53,7 @@ class Handler {
       })
     }
 
-    static update_dynamic_user_table(user_id, skin){
+    static update_dynamic_user_table(user){
         let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES"+ "('" + user_id + "', NOW(),'" + skin + "')"
         connection.query(sql,(err, result) => {
             if (err) throw  err
