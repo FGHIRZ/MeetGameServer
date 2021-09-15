@@ -14,14 +14,28 @@ class Handler {
 
         let params = request.body.params
         let name = params.name
-        let skin = ''
-        let user_id = ''
-        let sql_query = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        let response = ''
-        let res = ''
-        let users = await this.query_db(sql_query)
+        let password = params.password
 
+        let sql_query = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        let users = await this.query_db(sql_query)
         console.log(users)
+
+        if(users.length===0)
+        {
+          response = json_maker.error(1, "Pas d'utilisateur avec ce nom")
+          cb(response)
+        }
+        else {
+          user = users[0]
+          if(check_login_password(user.password, password))
+          {
+            response = json_maker.login(user.used_id, user.skin)
+            cb(response)
+          }
+          else {
+            response = json_maker.error(2, "mauvais mot de passe")
+          }
+        }
     }
 
     static query_db(sql){
@@ -40,30 +54,13 @@ class Handler {
         })
     }
 
-    static async check_login_password(user){
-        console.log(user)
-        let skin = user.skin
-        let user_id = user.user_id
-            if (result.length === 0) {
-        let password = user.password
-        let name = user.name
-        let response = ""
-
-        let sql = "SELECT password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-
-        await connection.query(sql, (err, password_select) => async function() {
-            if (err) throw  err
-            if (password_select === password) {
-
-                response = json_maker.login("ok",user_id, skin)
-
-            }else{
-                response = json_maker.error("2","password and login does not match")
-            }
-            return response
-        })
+    static check_login_password(user, password){
+        if(user.password == password)
+        {
+          return true
+        }
+        return false
     }
-  }
 
 
     static update (request, cb) {
@@ -85,7 +82,7 @@ class Handler {
 
     }
 
-    static create_account(request, cb){
+    static create_account(request){
 
         let params = request.body.params
         let name = params.name
