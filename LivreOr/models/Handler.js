@@ -22,7 +22,7 @@ class Handler {
         let test = await connection.query(sql, (err, result) => {
             if (err) throw  err
             res = result
-            console.log(result)
+            return
         })
         console.log(res)
     }
