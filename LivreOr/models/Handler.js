@@ -31,7 +31,7 @@ class Handler {
           {
             console.log("sending ok")
             console.log(user)
-            update_dynamic_user_table(user.user_id, user.skin)
+            this.update_dynamic_user_table(user.user_id, user.skin)
             let response = json_maker.login(user)
             u
             cb(response)
