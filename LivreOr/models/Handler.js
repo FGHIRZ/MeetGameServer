@@ -31,7 +31,8 @@ class Handler {
           if(this.check_login_password(user.password, password))
           {
             console.log("sending ok")
-            let response = json_maker.login(user.used_id, user.skin)
+            console.log(user)
+            let response = json_maker.login(user)
             cb(response)
           }
           else {

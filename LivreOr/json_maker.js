@@ -35,11 +35,11 @@ class json_maker{
         return output
     }
 
-    static login(user_id, skin)
+    static login(user)
     {
         let params = {
-            "user_id" : user_id,
-            "skin" : skin
+            "user_id" : user.user_id,
+            "skin" : user.skin
         }
         let output = {
             "status" : "ok",
