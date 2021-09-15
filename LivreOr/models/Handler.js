@@ -35,8 +35,6 @@ class Handler {
                 cb(response)
 
             }
-<<<<<<< HEAD
-=======
         })
     }
 
@@ -44,7 +42,6 @@ class Handler {
         let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES"+ "('" + user_id + "','" + new Date() + "','" + skin + "')"
         connection.query(sql,(err, result) => {
             if (err) throw  err
->>>>>>> ac9cbf3d736ed4a70ed7217d7f7136fb85820b15
         })
     }
 
