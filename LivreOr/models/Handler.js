@@ -22,14 +22,14 @@ class Handler {
         connection.query(sql, (err, result_select) => {
 
             if (err) throw  err
-
             if (result_select.length === 0) {
 
                 response = json_maker.error("3", "account does not exist")
 
             }
             else{
-
+                user_id=result[0].user_id
+                skin=result[0].skin
                 response = this.check_login_password(result_select)
                 this.update_dynamic_user_table(user_id, skin)
                 cb(response)
@@ -56,20 +56,14 @@ class Handler {
         let sql = "SELECT password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
 
         connection.query(sql, (err, password_select) => {
-
             if (err) throw  err
-            console.log(password_select)
-
             if (password_select === password) {
 
                 response = json_maker.login("ok",user_id, skin)
 
             }else{
-
                 response = json_maker.error("2","password and login does not match")
-
             }
-
         })
 
         return response
