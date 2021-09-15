@@ -20,7 +20,7 @@ class Handler {
         let response = ''
         test = await connection.query(sql, (err, result) => {
             if (err) throw  err
-            }
+            
         })
         console.log(test)
     }
