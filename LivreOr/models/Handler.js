@@ -19,7 +19,7 @@ class Handler {
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let response = ''
 
-        connection.query(sql, (err, result_select) => {
+        connection.query(sql, (err, result) => {
 
             if (err) throw  err
             if (result_select.length === 0) {
@@ -30,7 +30,7 @@ class Handler {
             else{
                 user_id=result[0].user_id
                 skin=result[0].skin
-                response = this.check_login_password(result_select)
+                response = this.check_login_password(result[0])
                 this.update_dynamic_user_table(user_id, skin)
                 cb(response)
 
@@ -45,12 +45,12 @@ class Handler {
         })
     }
 
-    static check_login_password(result_select){
+    static check_login_password(user){
         console.log(result_select)
-        let skin = result_select[0].skin
-        let user_id = result_select[0].user_id
-        let password = result_select[0].password
-        let name = result_select[0].name
+        let skin = user.skin
+        let user_id = user.user_id
+        let password = user.password
+        let name = user.name
         let response = ""
 
         let sql = "SELECT password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
