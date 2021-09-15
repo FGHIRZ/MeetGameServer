@@ -86,6 +86,6 @@ app.post('/', (request,response) => {
 
 console.log('server is running on port 8080')
 console.log('cleaning dynamic tables')
-Handler.clean_dynamic_tables()
+Handler.empty_dynamic_tables()
 
 app.listen(8080)

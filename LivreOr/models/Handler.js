@@ -2,7 +2,7 @@ let connection = require('../config/db')
 
 class Handler {
 
-    static clean_dynamic_tables () {
+    static empty_dynamic_tables () {
 
         connection.query('DELETE FROM DYNAMIC_USER_TABLE', [], (err, result) => {
             if (err) throw  err
