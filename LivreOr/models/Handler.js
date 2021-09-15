@@ -16,18 +16,25 @@ class Handler {
         let name = params.name
         let skin = ''
         let user_id = ''
-        let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        let sql_query = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let response = ''
         let res = ''
-        const test = await connection.query(sql, (error, results) => resolve(results));
-        console.log(test)
+        users = await querry_db(sql_query)
+        console.log(users)
+    }
+
+    static async querry_db(sql){
+      await connection.query(sql, (error, result) = >)
     }
 
     static update_dynamic_user_table(user_id, skin){
+        let test = ''
         let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES"+ "('" + user_id + "', NOW(),'" + skin + "')"
         connection.query(sql,(err, result) => {
             if (err) throw  err
+            test = 'a'
         })
+        return test
     }
 
     static async check_login_password(user){
