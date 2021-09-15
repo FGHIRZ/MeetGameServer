@@ -9,7 +9,7 @@ class json_maker{
         }
 
         let output = {
-            "status" : status,
+            "status" : "error",
             "params" : params
         }
         return output
