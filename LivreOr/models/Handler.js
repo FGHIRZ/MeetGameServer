@@ -25,8 +25,11 @@ class Handler {
 
     static async querry_db(sql){
       return new Promise(function(resolve, reject) {
-        connection.query(sql, (err, result) =>{ resolve('b')})
-      }
+        connection.query(sql, (err, result) => {
+          if(err) return reject()
+          resolve('b')
+        })
+      })
     }
 
     static update_dynamic_user_table(user_id, skin){
