@@ -28,7 +28,7 @@ class Handler {
         else {
           let user = users[0]
           console.log(user.password, password)
-          if(this.check_login_password(user.password, password))
+          if(this.check_login_password(user.password password))
           {
             console.log("sending ok")
             let response = json_maker.login(user.used_id, user.skin)
@@ -58,8 +58,8 @@ class Handler {
         })
     }
 
-    static check_login_password(user, password){
-        if(user.password == password)
+    static check_login_password(user_password, entered_password){
+        if(user_password === entered_password)
         {
           return true
         }
