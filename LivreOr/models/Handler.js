@@ -43,7 +43,7 @@ class Handler {
         })
     }
 
-    static check_login_password(user){
+    static async check_login_password(user){
         console.log(user)
         let skin = user.skin
         let user_id = user.user_id
