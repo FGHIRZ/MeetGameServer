@@ -23,6 +23,7 @@ class Handler {
         if(users.length===0)
         {
           let response = json_maker.error(1, "Pas d'utilisateur avec ce nom")
+          console.log(1)
           cb(response)
         }
         else {
@@ -30,9 +31,11 @@ class Handler {
           if(this.check_login_password(user.password, password))
           {
             let response = json_maker.login(user.used_id, user.skin)
+            console.log(2)
             cb(response)
           }
           else {
+            console.log(3)
             let response = json_maker.error(2, "mauvais mot de passe")
           }
         }
