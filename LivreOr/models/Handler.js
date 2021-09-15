@@ -27,6 +27,7 @@ class Handler {
         }
         else {
           let user = users[0]
+          console.log(user.password, password)
           if(this.check_login_password(user.password, password))
           {
             let response = json_maker.login(user.used_id, user.skin)
