@@ -25,10 +25,16 @@ class Handler {
 
     static async querry_db(sql){
       return new Promise(function(resolve, reject) {
+        try{
         connection.query(sql, (err, result) => {
           if(err) return reject(err)
           return resolve(result)
         })
+      }
+      catch(error)
+      {
+        reject(error)
+      }
       })
     }
 
