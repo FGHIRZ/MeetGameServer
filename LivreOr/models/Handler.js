@@ -52,6 +52,7 @@ class Handler {
         let skin = result_select[0].skin
         let user_id = result_select[0].user_id
         let password = result_select[0].password
+        let name = result_select[0].name
         let response = ""
 
         let sql = "SELECT password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
