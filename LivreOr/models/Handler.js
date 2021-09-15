@@ -24,17 +24,16 @@ class Handler {
     }
 
     static async querry_db(sql){
-      await connection.query(sql, (error, result) = >)
+      let test = 'a'
+      await connection.query(sql, (error, result) = >{ test = 'b'})
+      return test
     }
 
     static update_dynamic_user_table(user_id, skin){
-        let test = ''
         let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES"+ "('" + user_id + "', NOW(),'" + skin + "')"
         connection.query(sql,(err, result) => {
             if (err) throw  err
-            test = 'a'
         })
-        return test
     }
 
     static async check_login_password(user){
