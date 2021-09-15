@@ -66,6 +66,7 @@ class Handler {
             return response
         })
     }
+  }
 
 
     static update (request, cb) {
