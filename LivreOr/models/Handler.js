@@ -22,18 +22,18 @@ class Handler {
 
         if(users.length===0)
         {
-          response = json_maker.error(1, "Pas d'utilisateur avec ce nom")
+          let response = json_maker.error(1, "Pas d'utilisateur avec ce nom")
           cb(response)
         }
         else {
           let user = users[0]
           if(this.check_login_password(user.password, password))
           {
-            response = json_maker.login(user.used_id, user.skin)
+            let response = json_maker.login(user.used_id, user.skin)
             cb(response)
           }
           else {
-            response = json_maker.error(2, "mauvais mot de passe")
+            let response = json_maker.error(2, "mauvais mot de passe")
           }
         }
     }
