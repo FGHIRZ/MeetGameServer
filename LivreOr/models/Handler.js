@@ -72,7 +72,7 @@ class Handler {
         let user_id = params.id
         let lon = params.location.lon
         let lat = params.location.lat
-        let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + "lat = " + lat + "WHERE user_id = " + user_id
+        let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
         await this.query_db(sql)
         sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
         let user_list = await  this.query_db(sql)
