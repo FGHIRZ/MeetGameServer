@@ -4,10 +4,9 @@ var delayInMilliseconds = 10000; //1 second
 
 function clean_dynamic_tables () {
 
-  let timestamp = new Date() - 10000
 
   console.log("cleaning...")
-  connection.query('DELETE FROM DYNAMIC_USER_TABLE WHERE TimeStampRefresh < ?', [timestamp], (err, result) => {
+  connection.query('DELETE FROM DYNAMIC_USER_TABLE WHERE TimeStampRefresh < (NOW() - INTERVAL 10 SECONDS)', (err, result) => {
       if (err) throw err
   })
 
