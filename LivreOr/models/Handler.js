@@ -47,13 +47,14 @@ class Handler {
         console.log(user)
         let skin = user.skin
         let user_id = user.user_id
+            if (result.length === 0) {
         let password = user.password
         let name = user.name
         let response = ""
 
         let sql = "SELECT password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
 
-        await connection.query(sql, (err, password_select) => {
+        await connection.query(sql, (err, password_select) => async function() {
             if (err) throw  err
             if (password_select === password) {
 
@@ -62,9 +63,8 @@ class Handler {
             }else{
                 response = json_maker.error("2","password and login does not match")
             }
+            return response
         })
-        console.log(response)
-        return response
     }
 
 
