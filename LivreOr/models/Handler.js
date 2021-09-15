@@ -72,6 +72,7 @@ class Handler {
         let user_id = params.id
         let lon = params.location.lon
         let lat = params.location.lat
+        console.log(params)
         connection.query('UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = ?, lon = ?, lat = ? WHERE user_id = ?', [new Date(), lon, lat, user_id], (err, result) => {
             if (err) throw  err
         })
