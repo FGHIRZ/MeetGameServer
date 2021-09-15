@@ -1,4 +1,5 @@
 let connection = require('../config/db')
+const json_maker = require("../json_maker");
 
 class Handler {
 
@@ -15,53 +16,66 @@ class Handler {
         let name = params.name
         let skin = ''
         let user_id = ''
-        var sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        console.log(sql)
+        let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        let response = ''
+
         connection.query(sql, (err, result_select) => {
+
             if (err) throw  err
             console.log(result_select)
-            if (result_select.length == 0)
-            {
-              var sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "', 'skin1', '1234')"
-              connection.query(sql, (err, result) => {
-                  if (err) throw  err
-                  console.log(result.insertId);
-                  skin='skin1'
-                  user_id=result.insertId
-                  var sql = "INSERT IGNORE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
-                  connection.query(sql,(err, result) => {
-                      if (err) throw  err
-                  })
-                  let response = this.make_login_callback_json(user_id, skin)
-                  cb(response)
-              })
+
+            if (result_select.length === 0) {
+
+                response = json_maker.error("3", "account does not exist")
+
+            }else{
+
+                response = this.check_login_password(result_select)
+                this.update_dynamic_user_table(user_id, skin)
+                cb(response)
+
             }
-            else{
-               skin = result_select[0].skin
-               user_id = result_select[0].user_id
-               var sql = "INSERT IGNORE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
-               connection.query(sql,(err, result) => {
-                   if (err) throw  err
-               })
-               let response = this.make_login_callback_json(user_id, skin)
-               cb(response)
-            }
+<<<<<<< HEAD
+=======
         })
     }
 
-    static make_login_callback_json(user_id, skin)
-    {
-      let params = {
-        "user_id" : user_id,
-        "skin" : skin
-      }
-      let output = {
-        "status" : "ok",
-        "params" : params
-      }
-      return output
-
+    static update_dynamic_user_table(user_id, skin){
+        let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES"+ "('" + user_id + "','" + new Date() + "','" + skin + "')"
+        connection.query(sql,(err, result) => {
+            if (err) throw  err
+>>>>>>> ac9cbf3d736ed4a70ed7217d7f7136fb85820b15
+        })
     }
+
+    static check_login_password(result_select){
+        let skin = result_select[0].skin
+        let user_id = result_select[0].user_id
+        let password = result_select[0].password
+        let response = ""
+
+        let sql = "SELECT password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+
+        connection.query(sql, (err, password_select) => {
+
+            if (err) throw  err
+            console.log(password_select)
+
+            if (password_select === password) {
+
+                response = json_maker.login("ok",user_id, skin)
+
+            }else{
+
+                response = json_maker.error("2","password and login does not match")
+
+            }
+
+        })
+
+        return response
+    }
+
 
     static update (request, cb) {
 
@@ -76,30 +90,47 @@ class Handler {
 
         connection.query('SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> ?', [user_id], (err, result) => {
             if (err) throw err
-            let response = this.make_update_json(result)
+            let response = json_maker.update(result)
             cb (response)
         })
 
     }
 
-
-    static make_update_json (result){
-
-        let user_list  = JSON.parse(JSON.stringify(result));
-        let output = {
-          "status" : "ok",
-          "params" : user_list
-        }
-
-        console.log(output)
-        return output
-    }
-
-
-
     static create_account(request, cb){
 
+        let params = request.body.params
+        let name = params.name
+        let skin = 'skin1'
+        let password = params.password
+        //check if this name is already in the static user table
+        let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        connection.query(sql, (err, result_select) => {
+            if (err) throw  err
+
+            if (result_select.length === 0)
+            {
+                //if no
+                this.insert_account(name, skin , password)
+                let response = json_maker.create_account("ok" )
+                cb(response)
+            }else{
+                //if yes
+                let response = json_maker.error(1, "This account already exists!")
+                cb(response)
+            }
+        })
     }
+
+    static insert_account(name, skin, password){
+
+        let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "','" + skin + "','" + password + "')"
+
+        connection.query(sql, (err) => {
+            if (err) throw  err
+            console.log("account ", name , "added to the db")
+        })
+    }
+
 }
 
 module.exports = Handler

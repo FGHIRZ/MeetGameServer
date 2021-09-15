@@ -4,6 +4,10 @@ let bodyParser = require('body-parser')
 let session = require('express-session')
 const Handler = require("./models/Handler");
 
+
+
+const users = []
+
 // Moteur de template
 app.set('view engine', 'ejs')
 
@@ -11,6 +15,7 @@ app.set('view engine', 'ejs')
 app.use('/assets', express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
+app.use(express.json())
 
 app.use(session({
   secret: 'secretkey',
@@ -22,9 +27,11 @@ app.use(session({
 app.use(require('./middleware/flash'))
 
 // Routes
-app.get('/', (request, response) => {
-    console.log(request.body)
-    console.log(request.session)
+app.get('/users', (request, response) => {
+
+    res.json(users)
+    // console.log(request.body)
+    // console.log(request.session)
     // response.render('pages/index', {test: 'Salut'})
 })
 
@@ -58,11 +65,11 @@ app.post('/', (request,response) => {
                     //})
                     break;
         case 'create_account':
-                //Handler.update(request, function (){
-                    // response.writeHead(200,result)
-                    // response.end()
-                //})
-                break;
+            Handler.create_account(request, function (status){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
 
         default:
             console.log("this request isn't recognized");

@@ -1,6 +1,6 @@
 let connection = require('./config/db')
 
-var delayInMilliseconds = 10000; //1 second
+let delayInMilliseconds = 10000; //1 second
 
 function clean_dynamic_tables () {
 
