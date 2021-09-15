@@ -67,9 +67,8 @@ class Handler {
     }
 
 
-    static update (request, cb) {
+    static update (params, cb) {
 
-        let params = request.body.params
         let user_id = params.id
         let lon = params.location.lon
         let lat = params.location.lat
