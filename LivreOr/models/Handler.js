@@ -17,39 +17,62 @@ class Handler {
         let skin = ''
         let user_id = ''
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        let response = ''
 
         connection.query(sql, (err, result_select) => {
+
             if (err) throw  err
             console.log(result_select)
-            if (result_select.length === 0)
-            {
-              let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "', 'skin1', '1234')"
-              connection.query(sql, (err, result) => {
-                  if (err) throw  err
-                  console.log(result.insertId);
-                  skin='skin1'
-                  user_id=result.insertId
-                  let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
-                  connection.query(sql,(err, result) => {
-                      if (err) throw  err
-                  })
-                  let response = json_maker.login_cb("ok",user_id, skin)
-                  cb(response)
-              })
+
+            if (result_select.length === 0) {
+
+                response = json_maker.error("3", "account does not exist")
+
+            }else{
+
+                response = this.check_login_password(result_select)
+                this.update_dynamic_user_table(user_id, skin)
+                cb(response)
+
             }
-            else{
-               skin = result_select[0].skin
-               user_id = result_select[0].user_id
-               let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
-               connection.query(sql,(err, result) => {
-                   if (err) throw  err
-               })
-               let response = json_maker.login_cb("ok",user_id, skin)
-               cb(response)
+        })
+    }
+
+    static update_dynamic_user_table(user_id, skin){
+        let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES"+ "('" + user_id + "','" + new Date() + "','" + skin + "')"
+        connection.query(sql,(err, result) => {
+            if (err) throw  err
+        })
+    }
+
+    static check_login_password(result_select){
+        let skin = result_select[0].skin
+        let user_id = result_select[0].user_id
+        let password = result_select[0].password
+        let response = ""
+
+        let sql = "SELECT password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+
+        connection.query(sql, (err, password_select) => {
+
+            if (err) throw  err
+            console.log(password_select)
+
+            if (password_select === password) {
+
+                response = json_maker.login("ok",user_id, skin)
+
+            }else{
+
+                response = json_maker.error("2","password and login does not match")
+
             }
 
         })
+
+        return response
     }
+
 
     static update (request, cb) {
 
@@ -81,15 +104,15 @@ class Handler {
         connection.query(sql, (err, result_select) => {
             if (err) throw  err
 
-            if (result_select.length == 0)
+            if (result_select.length === 0)
             {
                 //if no
                 this.insert_account(name, skin , password)
-                let response = json_maker.error("ok" ,"")
+                let response = json_maker.create_account("ok" )
                 cb(response)
             }else{
                 //if yes
-                let response = json_maker.error("error", 1 )
+                let response = json_maker.error(1, "This account already exists!")
                 cb(response)
             }
         })

@@ -1,14 +1,27 @@
-
+//a class made to
 class json_maker{
 
-    static error(status , error)
+    static error(error, description)
     {
+        let params = {
+            "code" : error,
+            "description" : description
+        }
+
         let output = {
             "status" : status,
-            "params" : error
+            "params" : params
         }
         return output
     }
+    static create_account(status)
+    {
+        let output = {
+            "status" : status
+        }
+        return output
+    }
+
 
     static update (result){
 
