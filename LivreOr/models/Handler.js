@@ -39,7 +39,7 @@ class Handler {
     }
 
     static update_dynamic_user_table(user_id, skin){
-        let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES"+ "('" + user_id + "','" + new Date() + "','" + skin + "')"
+        let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES"+ "('" + user_id + "', NOW(),'" + skin + "')"
         connection.query(sql,(err, result) => {
             if (err) throw  err
         })
