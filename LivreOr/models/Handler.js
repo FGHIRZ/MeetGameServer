@@ -1,4 +1,5 @@
 let connection = require('../config/db')
+const json_maker = require("../json_maker");
 
 class Handler {
 
@@ -20,7 +21,7 @@ class Handler {
         connection.query(sql, (err, result_select) => {
             if (err) throw  err
             console.log(result_select)
-            if (result_select.length == 0)
+            if (result_select.length === 0)
             {
               let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "', 'skin1', '1234')"
               connection.query(sql, (err, result) => {
@@ -32,7 +33,7 @@ class Handler {
                   connection.query(sql,(err, result) => {
                       if (err) throw  err
                   })
-                  let response = this.login_cb_json("ok",user_id, skin)
+                  let response = json_maker.login_cb("ok",user_id, skin)
                   cb(response)
               })
             }
@@ -43,25 +44,11 @@ class Handler {
                connection.query(sql,(err, result) => {
                    if (err) throw  err
                })
-               let response = this.login_cb_json("ok",user_id, skin)
+               let response = json_maker.login_cb("ok",user_id, skin)
                cb(response)
             }
 
         })
-    }
-
-    static login_cb_json(status, user_id, skin)
-    {
-      let params = {
-        "user_id" : user_id,
-        "skin" : skin
-      }
-      let output = {
-        "status" : status,
-        "params" : params
-      }
-      return output
-
     }
 
     static update (request, cb) {
@@ -77,22 +64,10 @@ class Handler {
 
         connection.query('SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> ?', [user_id], (err, result) => {
             if (err) throw err
-            let response = this.make_update_json(result)
+            let response = json_maker.update(result)
             cb (response)
         })
 
-    }
-
-    static make_update_json (result){
-
-        let user_list  = JSON.parse(JSON.stringify(result));
-        let output = {
-          "status" : "ok",
-          "params" : user_list
-        }
-
-        console.log(output)
-        return output
     }
 
     static create_account(request, cb){
@@ -110,22 +85,16 @@ class Handler {
             {
                 //if no
                 this.insert_account(name, skin , password)
-                let response = this.create_account_cb_json("ok" )
+                let response = json_maker.error("ok" ,"")
                 cb(response)
             }else{
                 //if yes
-                let response = this.create_account_cb_json("1" )
+                let response = json_maker.error("error", 1 )
                 cb(response)
             }
         })
     }
-    static create_account_cb_json(status)
-    {
-        let output = {
-            "status" : status
-        }
-        return output
-    }
+
     static insert_account(name, skin, password){
 
         let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "','" + skin + "','" + password + "')"
