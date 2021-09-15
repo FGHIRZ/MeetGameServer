@@ -10,9 +10,8 @@ class Handler {
             })
     }
 
-    static async login (request, cb) {
+    static async login (params, cb) {
 
-        let params = request.body.params
         let name = params.name
         let password = params.password
 
@@ -87,9 +86,8 @@ class Handler {
 
     }
 
-    static async create_account(request){
+    static async create_account(params, cb){
 
-        let params = request.body.params
         let name = params.name
         let skin = 'skin1'
         let password = params.password

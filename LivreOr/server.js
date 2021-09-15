@@ -45,14 +45,14 @@ app.post('/', (request,response) => {
 
     switch (request_type) {
         case 'login':
-              Handler.login(request, function (resp){
+              Handler.login(request.body.params, function (resp){
               response.setHeader('Content-Type', 'application/json');
               response.end(JSON.stringify(resp))
             })
 
             break;
         case 'update':
-            Handler.update(request, function (user_list){
+            Handler.update(request.body.params, function (user_list){
               response.setHeader('Content-Type', 'application/json');
               response.end(JSON.stringify(user_list))
             })
