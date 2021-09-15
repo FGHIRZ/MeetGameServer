@@ -1,4 +1,4 @@
-let connection = require('config/db')
+let connection = require('./config/db')
 
 var delayInMilliseconds = 10000; //1 second
 
