@@ -18,23 +18,12 @@ class Handler {
         let user_id = ''
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let response = ''
-        connection.query(sql, (err, result) => async {
+        test = connection.query(sql, (err, result) => {
 
             if (err) throw  err
-
-            console.log("2")
-            if (result.length === 0) {
-
-                response = json_maker.error("3", "account does not exist")
-
-            }
-            else{
-                user_id=result[0].user_id
-                skin=result[0].skin
-                response = await this.check_login_password(result[0])
-                this.update_dynamic_user_table(user_id, skin, cb)
             }
         })
+        console.log(test)
     }
 
     static update_dynamic_user_table(user_id, skin){
