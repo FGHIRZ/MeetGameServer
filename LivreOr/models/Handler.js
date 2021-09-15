@@ -19,9 +19,12 @@ class Handler {
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let response = ''
 
+        console.log("1")
         connection.query(sql, (err, result) => async function(){
 
             if (err) throw  err
+
+            console.log("2")
             if (result.length === 0) {
 
                 response = json_maker.error("3", "account does not exist")

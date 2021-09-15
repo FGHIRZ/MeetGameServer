@@ -45,7 +45,7 @@ app.post('/', (request,response) => {
 
     switch (request_type) {
         case 'login':
-            Handler.login(request, function (resp){
+              Handler.login(request, function (resp){
               response.setHeader('Content-Type', 'application/json');
               response.end(JSON.stringify(resp))
             })
