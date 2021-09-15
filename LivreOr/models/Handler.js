@@ -87,7 +87,7 @@ class Handler {
 
     }
 
-    static create_account(request){
+    static async create_account(request){
 
         let params = request.body.params
         let name = params.name
@@ -95,21 +95,18 @@ class Handler {
         let password = params.password
         //check if this name is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        connection.query(sql, (err, result) => {
-            if (err) throw  err
-
-            if (result.length === 0)
-            {
-                //if no
-                this.insert_account(name, skin , password)
-                let response = json_maker.create_account("ok" )
-                cb(response)
-            }else{
-                //if yes
-                let response = json_maker.error(1, "This account already exists!")
-                cb(response)
-            }
-        })
+        result = await this.query_db(sql)
+        if (result.length === 0)
+        {
+            this.insert_account(name, skin , password)
+            let response = json_maker.create_account("ok" )
+            cb(response)
+        }
+        else
+        {
+            let response = json_maker.error(1, "This account already exists!")
+            cb(response)
+        }
     }
 
     static insert_account(name, skin, password){
