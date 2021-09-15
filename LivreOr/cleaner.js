@@ -6,7 +6,7 @@ function clean_dynamic_tables () {
 
 
   console.log("cleaning...")
-  connection.query('DELETE FROM DYNAMIC_USER_TABLE WHERE TimeStampRefresh < (NOW() - INTERVAL 10 SECOND)', (err, result) => {
+  connection.query('DELETE FROM DYNAMIC_USER_TABLE WHERE TimeStampRefresh < (NOW() - INTERVAL 30 SECOND)', (err, result) => {
       if (err) throw err
   })
 
