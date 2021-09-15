@@ -30,10 +30,12 @@ class Handler {
           console.log(user.password, password)
           if(this.check_login_password(user.password, password))
           {
+            console.log("sending ok")
             let response = json_maker.login(user.used_id, user.skin)
             cb(response)
           }
           else {
+            console.log("sending error")
             let response = json_maker.error(2, "mauvais mot de passe")
             cb(response)
           }
