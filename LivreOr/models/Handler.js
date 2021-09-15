@@ -25,7 +25,7 @@ class Handler {
 
     static async querry_db(sql){
       return new Promise(function(resolve, reject) {
-        await connection.query(sql, (err, result) =>{ resolve('b')})
+        connection.query(sql, (err, result) =>{ resolve('b')})
       }
     }
 
