@@ -22,13 +22,13 @@ class Handler {
         connection.query(sql, (err, result_select) => {
 
             if (err) throw  err
-            console.log(result_select)
 
             if (result_select.length === 0) {
 
                 response = json_maker.error("3", "account does not exist")
 
-            }else{
+            }
+            else{
 
                 response = this.check_login_password(result_select)
                 this.update_dynamic_user_table(user_id, skin)
@@ -46,6 +46,7 @@ class Handler {
     }
 
     static check_login_password(result_select){
+        console.log(result_select)
         let skin = result_select[0].skin
         let user_id = result_select[0].user_id
         let password = result_select[0].password
