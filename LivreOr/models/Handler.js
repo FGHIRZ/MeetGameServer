@@ -46,7 +46,7 @@ class Handler {
     }
 
     static check_login_password(user){
-        console.log(result_select)
+        console.log(user)
         let skin = user.skin
         let user_id = user.user_id
         let password = user.password
