@@ -19,7 +19,13 @@ class Handler {
         let sql_query = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let response = ''
         let res = ''
-        users = await this.query_db(sql_query)
+        try{
+          users = await this.query_db(sql_query)
+        }
+        catch(error)
+        {
+          console.log(error)
+        }
         console.log(users)
     }
 
