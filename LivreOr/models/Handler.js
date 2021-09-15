@@ -18,11 +18,12 @@ class Handler {
         let user_id = ''
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let response = ''
+        let res = ''
         let test = await connection.query(sql, (err, result) => {
             if (err) throw  err
-
+            res = result
         })
-        console.log(test)
+        console.log(res)
     }
 
     static update_dynamic_user_table(user_id, skin){
