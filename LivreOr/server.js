@@ -65,11 +65,11 @@ app.post('/', (request,response) => {
                     //})
                     break;
         case 'create_account':
-                //Handler.update(request, function (){
-                    // response.writeHead(200,result)
-                    // response.end()
-                //})
-                break;
+            Handler.create_account(request, function (status){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
 
         default:
             console.log("this request isn't recognized");
