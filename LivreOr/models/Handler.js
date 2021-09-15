@@ -33,7 +33,6 @@ class Handler {
             console.log(user)
             this.update_dynamic_user_table(user.user_id, user.skin)
             let response = json_maker.login(user)
-            u
             cb(response)
           }
           else {
