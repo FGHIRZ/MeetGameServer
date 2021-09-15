@@ -46,7 +46,6 @@ class Handler {
                let response = this.make_login_callback_json(user_id, skin)
                cb(response)
             }
-
         })
     }
 
