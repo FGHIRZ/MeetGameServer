@@ -95,7 +95,7 @@ class Handler {
         let password = params.password
         //check if this name is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        result = await this.query_db(sql)
+        let result = await this.query_db(sql)
         if (result.length === 0)
         {
             this.insert_account(name, skin , password)
