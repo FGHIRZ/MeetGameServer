@@ -26,7 +26,7 @@ class Handler {
           cb(response)
         }
         else {
-          user = users[0]
+          let user = users[0]
           if(check_login_password(user.password, password))
           {
             response = json_maker.login(user.used_id, user.skin)
