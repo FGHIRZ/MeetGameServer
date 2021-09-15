@@ -18,9 +18,9 @@ class Handler {
         let user_id = ''
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let response = ''
-        test = await connection.query(sql, (err, result) => {
+        let test = await connection.query(sql, (err, result) => {
             if (err) throw  err
-            
+
         })
         console.log(test)
     }
