@@ -19,7 +19,7 @@ class Handler {
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let response = ''
         let res = ''
-        const test = await connection.query(sql, resolve);
+        const test = await connection.query(sql, (error, results) => resolve(results))});
         console.log(test)
     }
 
