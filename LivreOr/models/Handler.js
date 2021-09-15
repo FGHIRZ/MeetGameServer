@@ -24,9 +24,9 @@ class Handler {
     }
 
     static async querry_db(sql){
-      let test = 'a'
-      await connection.query(sql, (err, result) =>{ test = 'b'})
-      return test
+      return new Promise(function(resolve, reject) {
+        await connection.query(sql, (err, result) =>{ resolve('b')})
+      }
     }
 
     static update_dynamic_user_table(user_id, skin){
