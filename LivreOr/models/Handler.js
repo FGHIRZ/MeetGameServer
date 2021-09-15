@@ -67,22 +67,18 @@ class Handler {
     }
 
 
-    static update (params, cb) {
+    static async update (params, cb) {
 
         let user_id = params.id
         let lon = params.location.lon
         let lat = params.location.lat
-
         connection.query('UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = ?, lon = ?, lat = ? WHERE user_id = ?', [new Date(), lon, lat, user_id], (err, result) => {
             if (err) throw  err
         })
-
-        connection.query('SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> ?', [user_id], (err, result) => {
-            if (err) throw err
-            let response = json_maker.update(result)
-            cb (response)
-        })
-
+        let sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
+        let user_list = await  this.query_db(sql)
+        let response = json_maker.update(user_list)
+        cb(response)
     }
 
     static async create_account(params, cb){
