@@ -10,7 +10,7 @@ class Handler {
             })
     }
 
-    static login (request, cb) {
+    static async login (request, cb) {
 
         let params = request.body.params
         let name = params.name
