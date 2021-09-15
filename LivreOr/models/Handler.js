@@ -22,7 +22,7 @@ class Handler {
         connection.query(sql, (err, result) => {
 
             if (err) throw  err
-            if (result_select.length === 0) {
+            if (result.length === 0) {
 
                 response = json_maker.error("3", "account does not exist")
 
@@ -97,10 +97,10 @@ class Handler {
         let password = params.password
         //check if this name is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        connection.query(sql, (err, result_select) => {
+        connection.query(sql, (err, result) => {
             if (err) throw  err
 
-            if (result_select.length === 0)
+            if (result.length === 0)
             {
                 //if no
                 this.insert_account(name, skin , password)
