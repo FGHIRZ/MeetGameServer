@@ -29,18 +29,12 @@ class Handler {
         console.log(users)
     }
 
-    static querry_db(sql){
+    static function querry_db(sql){
       return new Promise(function(resolve, reject) {
-        try{
         connection.query(sql, (err, result) => {
           if(err) return reject(err)
-          return resolve(result)
+          resolve(result)
         })
-      }
-      catch(error)
-      {
-        reject(error)
-      }
       })
     }
 
