@@ -15,49 +15,49 @@ class Handler {
         let name = params.name
         let skin = ''
         let user_id = ''
-        var sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        console.log(sql)
+        let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+
         connection.query(sql, (err, result_select) => {
             if (err) throw  err
             console.log(result_select)
             if (result_select.length == 0)
             {
-              var sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "', 'skin1', '1234')"
+              let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "', 'skin1', '1234')"
               connection.query(sql, (err, result) => {
                   if (err) throw  err
                   console.log(result.insertId);
                   skin='skin1'
                   user_id=result.insertId
-                  var sql = "INSERT IGNORE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
+                  let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
                   connection.query(sql,(err, result) => {
                       if (err) throw  err
                   })
-                  let response = this.make_login_callback_json(user_id, skin)
+                  let response = this.login_cb_json("ok",user_id, skin)
                   cb(response)
               })
             }
             else{
                skin = result_select[0].skin
                user_id = result_select[0].user_id
-               var sql = "INSERT IGNORE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
+               let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin) VALUES (' " + user_id + "', '"+ new Date() + "', '" + skin + "')"
                connection.query(sql,(err, result) => {
                    if (err) throw  err
                })
-               let response = this.make_login_callback_json(user_id, skin)
+               let response = this.login_cb_json("ok",user_id, skin)
                cb(response)
             }
 
         })
     }
 
-    static make_login_callback_json(user_id, skin)
+    static login_cb_json(status, user_id, skin)
     {
       let params = {
         "user_id" : user_id,
         "skin" : skin
       }
       let output = {
-        "status" : "ok",
+        "status" : status,
         "params" : params
       }
       return output
@@ -83,7 +83,6 @@ class Handler {
 
     }
 
-
     static make_update_json (result){
 
         let user_list  = JSON.parse(JSON.stringify(result));
@@ -96,11 +95,47 @@ class Handler {
         return output
     }
 
-
-
     static create_account(request, cb){
 
+        let params = request.body.params
+        let name = params.name
+        let skin = 'skin1'
+        let password = params.password
+        //check if this name is already in the static user table
+        let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        connection.query(sql, (err, result_select) => {
+            if (err) throw  err
+
+            if (result_select.length == 0)
+            {
+                //if no
+                this.insert_account(name, skin , password)
+                let response = this.create_account_cb_json("ok" )
+                cb(response)
+            }else{
+                //if yes
+                let response = this.create_account_cb_json("1" )
+                cb(response)
+            }
+        })
     }
+    static create_account_cb_json(status)
+    {
+        let output = {
+            "status" : status
+        }
+        return output
+    }
+    static insert_account(name, skin, password){
+
+        let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "','" + skin + "','" + password + "')"
+
+        connection.query(sql, (err) => {
+            if (err) throw  err
+            console.log("account ", name , "added to the db")
+        })
+    }
+
 }
 
 module.exports = Handler
