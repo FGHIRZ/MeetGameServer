@@ -25,7 +25,7 @@ class Handler {
 
     static async querry_db(sql){
       let test = 'a'
-      await connection.query(sql, (error, result) = >{ test = 'b'})
+      await connection.query(sql, (err, result) =>{ test = 'b'})
       return test
     }
 
