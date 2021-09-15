@@ -22,9 +22,8 @@ class Handler {
         let test = await connection.query(sql, (err, result) => {
             if (err) throw  err
             res = result
-            return
         })
-        console.log(res)
+        console.log(test.result)
     }
 
     static update_dynamic_user_table(user_id, skin){
