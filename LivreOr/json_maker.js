@@ -1,4 +1,4 @@
-//a class made to
+//a class made to make all methodes of making a json message
 class json_maker{
 
     static error(error, description)
@@ -21,7 +21,6 @@ class json_maker{
         }
         return output
     }
-
 
     static update (result){
 
