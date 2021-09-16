@@ -111,6 +111,49 @@ class Handler {
             console.log("account ", name , "added to the db")
         })
     }
+    static delete_account(user_id){
+
+        let sql = "DELETE FROM STATIC_USER_TABLE (user_id) VALUES ('" + user_id + "')"
+
+        connection.query(sql, (err) => {
+            if (err) throw  err
+            console.log("user id "+ user_id + "has removed from the database ")
+        })
+
+    }
+
+    static change_name(user_id , new_name){
+
+        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, name) VALUES ('" + user_id +"','"+ new_name + "')"
+
+        connection.query(sql, (err) => {
+            if (err) throw  err
+            console.log("user id "+ user_id + "has changed his name to "+ new_name)
+        })
+    }
+
+    static change_password(user_id , new_password){
+
+        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, password) VALUES ('" + user_id +"','"+ new_password + "')"
+
+        connection.query(sql, (err) => {
+            if (err) throw  err
+            console.log("user id "+ user_id + "has changed his password from to "+ new_password)
+        })
+    }
+
+    static change_pseudo(user_id , new_pseudo){
+
+        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, pseudo) VALUES ('" + user_id +"','"+ new_pseudo + "')"
+
+        connection.query(sql, (err) => {
+            if (err) throw  err
+            console.log("user id "+ user_id + "has changed his password from to "+ new_pseudo)
+        })
+
+    }
+
+
 
 }
 

@@ -71,6 +71,34 @@ app.post('/', (request,response) => {
             })
             break;
 
+        case 'delete_account':
+
+            Handler.delete_account(request.body.params, function (status){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
+
+        case 'change_name':
+            Handler.change_name(request.body.params, function (status){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
+        case 'change_password':
+            Handler.change_password(request.body.params, function (status){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
+        case 'change_pseudo':
+            Handler.create_account(request.body.params, function (status){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
+
+
         default:
             console.log("this request isn't recognized");
     }
