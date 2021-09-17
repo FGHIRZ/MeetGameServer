@@ -43,7 +43,7 @@ class Handler {
     }
 
     static async check_login_password(name, password){
-      return new Promise((resolve, reject) => {
+      return new Promise(async (resolve, reject) => asyn {
 
         let sql_query = "SELECT name, password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let users = await this.query_db(sql_query)
