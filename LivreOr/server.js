@@ -67,6 +67,7 @@ app.post('/', (request,response) => {
                     break;
         case 'create_account':
             Handler.create_account(request.body.params, function (status){
+                console.log("sending : ", JSON.stringify(status))
                 response.setHeader('Content-Type', 'application/json');
                 response.end(JSON.stringify(status))
             })

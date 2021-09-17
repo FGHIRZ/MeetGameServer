@@ -93,9 +93,9 @@ class Handler {
           try {
             await this.insert_account(name, skin, password)
             let response = json_maker.generic("ok" ,"account added")
+            cb(response)
           } catch (e) {
             let response = json_maker.error(1, "This account already exists!")
-          } finally {
             cb(response)
           }
         }
