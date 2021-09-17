@@ -16,7 +16,8 @@ class Handler {
         let response = this.check_login_password(name, password)
         if (response){
             let sql_query = "SELECT user_id, name, skin  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-            let user = await this.query_db(sql_query)[0]
+            let response = await this.query_db(sql_query)
+            user=response[0]
             console.log("test", user)
             this.update_dynamic_user_table(user.user_id, user.skin)
             response = json_maker.login(user)
