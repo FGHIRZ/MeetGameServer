@@ -70,7 +70,7 @@ class Handler {
 
     static async update (params, cb) {
 
-        let user_id = params.id
+        let user_id = params.user_id
         let lon = params.location.lon
         let lat = params.location.lat
         let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
