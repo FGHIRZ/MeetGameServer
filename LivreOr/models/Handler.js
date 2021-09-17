@@ -89,25 +89,28 @@ class Handler {
         let result = await this.query_db(sql)
         if (result.length === 0)
         {
+          try {
             await this.insert_account(name, skin, password)
             let response = json_maker.generic("ok" ,"account added")
-            cb(response)
-        }
-        else
-        {
+          } catch (e) {
             let response = json_maker.error(1, "This account already exists!")
+          } finally {
             cb(response)
-        }
+          }
+
     }
 
     static async insert_account(name, skin, password){
 
+      return new Promise(async (resolve, reject) => {
         let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "','" + skin + "','" + password + "')"
 
         connection.query(sql, (err) => {
-            if (err) throw  err
+            if (err) reject(err)
             console.log("account ", name , "added to the db")
+            resolve()
         })
+      })
     }
 
     static delete_account(params,cb){
