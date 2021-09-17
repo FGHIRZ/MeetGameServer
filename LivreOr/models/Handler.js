@@ -13,20 +13,18 @@ class Handler {
     static async login (params, cb) {
         let name = params.name
         let password = params.password
-        let valid, response = await this.check_login_password(name, password)
-        if (valid){
-            let sql_query = "SELECT user_id, name, skin  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-            let select = await this.query_db(sql_query)
-            let user=select[0]
-            console.log("test", user)
-            this.update_dynamic_user_table(user.user_id, user.skin)
-            response = json_maker.login(user)
-            cb(response)
+        try {
+              let response = await this.check_login_password(name, password)
+              let sql_query = "SELECT user_id, name, skin  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+              let select = await this.query_db(sql_query)
+              let user=select[0]
+              console.log("test", user)
+              this.update_dynamic_user_table(user.user_id, user.skin)
+              response = json_maker.login(user)
+              cb(response)
+        } catch (e) {
+            cb(e)
         }
-        else {
-            cb(response)
-        }
-
     }
 
     static query_db(sql){
@@ -46,6 +44,7 @@ class Handler {
     }
 
     static async check_login_password(name, password){
+      return new Promise(function(resolve, reject) {
 
         let sql_query = "SELECT name, password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let users = await this.query_db(sql_query)
@@ -53,7 +52,7 @@ class Handler {
 
         if(users.length === 0){
             response =  json_maker.error(1, "this account does not exist")
-            return false, response
+            reject(response)
 
         }else{
 
@@ -61,14 +60,14 @@ class Handler {
 
             if(user.password === password){
 
-                return true , response
+                resolve(response)
 
             }else{
                 response = json_maker.error(2, "the name and the password does not match")
-                return false, response
-
+                reject(response)
             }
         }
+      })
 
     }
 
