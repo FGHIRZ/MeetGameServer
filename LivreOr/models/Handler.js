@@ -13,7 +13,7 @@ class Handler {
     static async login (params, cb) {
         let name = params.name
         let password = params.password
-        let valid, response = this.check_login_password(name, password)
+        let valid, response = await this.check_login_password(name, password)
         if (valid){
             let sql_query = "SELECT user_id, name, skin  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
             let select = await this.query_db(sql_query)
