@@ -97,7 +97,7 @@ class Handler {
           } finally {
             cb(response)
           }
-
+        }
     }
 
     static async insert_account(name, skin, password){
