@@ -87,6 +87,7 @@ class Handler {
         //check if this name is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let result = await this.query_db(sql)
+        let response=""
         if (result.length === 0)
         {
           try {
