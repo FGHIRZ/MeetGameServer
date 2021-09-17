@@ -41,7 +41,7 @@ class Handler {
         })
     }
 
-    static check_login_password(name, password){
+    static async check_login_password(name, password){
 
         let sql_query = "SELECT name, password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let users = await this.query_db(sql_query)
