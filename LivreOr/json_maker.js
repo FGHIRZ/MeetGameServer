@@ -30,9 +30,12 @@ class json_maker{
 
     static user_list (user_list){
 
+        let params = {
+          "user_list" : user_list
+        }
         let output = {
             "status" : "ok",
-            "params" : user_list
+            "params" : params
         }
 
         return output
