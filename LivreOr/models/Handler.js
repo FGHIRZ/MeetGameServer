@@ -84,7 +84,7 @@ class Handler {
           let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
           this.syn_db_query(sql)
         }
-        sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
+        let sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
         let user_list = await this.db_query(sql)
         let response = json_maker.user_list(user_list)
         cb(response)
