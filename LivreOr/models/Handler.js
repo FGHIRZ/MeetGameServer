@@ -91,7 +91,7 @@ class Handler {
         let result = await this.query_db(sql)
         if (result.length === 0)
         {
-            this.insert_account(name, skin , password)
+            await this.insert_account(name, skin, password)
             let response = json_maker.generic("ok" ,"account added")
             cb(response)
         }
@@ -102,7 +102,7 @@ class Handler {
         }
     }
 
-    static insert_account(name, skin, password){
+    static async insert_account(name, skin, password){
 
         let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "','" + skin + "','" + password + "')"
 
