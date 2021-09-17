@@ -11,36 +11,18 @@ class Handler {
     }
 
     static async login (params, cb) {
-
         let name = params.name
         let password = params.password
-
-        let sql_query = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        let users = await this.query_db(sql_query)
-        console.log(users)
-
-        if(users.length===0)
-        {
-          let response = json_maker.error(1, "Pas d'utilisateur avec ce nom")
-          cb(response)
-        }
-        else {
-          let user = users[0]
-          console.log(user.password, password)
-          if(this.check_login_password(user.password, password))
-          {
-            console.log("sending ok")
-            console.log(user)
+        let response = this.check_login_password(name, password)
+        if (response){
+            let sql_query = "SELECT user_id, name, skin  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+            let user = await this.query_db(sql_query)
             this.update_dynamic_user_table(user.user_id, user.skin)
-            let response = json_maker.login(user)
-            cb(response)
-          }
-          else {
-            console.log("sending error")
-            let response = json_maker.error(2, "mauvais mot de passe")
-            cb(response)
-          }
+            response = json_maker.login(user)
         }
+
+        cb(response)
+
     }
 
     static query_db(sql){
@@ -59,14 +41,32 @@ class Handler {
         })
     }
 
-    static check_login_password(user_password, entered_password){
-        if(user_password === entered_password)
-        {
-          return true
-        }
-        return false
-    }
+    static check_login_password(name, password){
 
+        let sql_query = "SELECT name, password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        let users = await this.query_db(sql_query)
+        let response = ""
+
+        if(users.length === 0){
+            response =  json_maker.error(1, "this account does not exist")
+            return false, response
+
+        }else{
+
+            let user = users[0]
+
+            if(user.password === password){
+
+                return true , response
+
+            }else{
+                response = json_maker.error(2, "the name and the password does not match")
+                return false, response
+
+            }
+        }
+
+    }
 
     static async update (params, cb) {
 
@@ -92,7 +92,7 @@ class Handler {
         if (result.length === 0)
         {
             this.insert_account(name, skin , password)
-            let response = json_maker.create_account("ok" )
+            let response = json_maker.generic("ok" ,"account added")
             cb(response)
         }
         else
@@ -111,44 +111,93 @@ class Handler {
             console.log("account ", name , "added to the db")
         })
     }
-    static delete_account(user_id){
 
+    static delete_account(params,cb){
+        let user_id = params.user_id
+        let response = ""
         let sql = "DELETE FROM STATIC_USER_TABLE (user_id) VALUES ('" + user_id + "')"
 
         connection.query(sql, (err) => {
-            if (err) throw  err
-            console.log("user id "+ user_id + "has removed from the database ")
-        })
+            if (err){
+                throw  err
+                response = json_maker.error("4","an error occured during the removal process")
+                cb(response)
 
+            }else{
+                 console.log("user id "+ user_id + "has removed from the database ")
+                response = json_maker.generic("ok","account deleted")
+                cb(response)
+            }
+        })
     }
 
-    static change_name(user_id , new_name){
+    static change_name(params, cb){
+        let user_id = params.user_id
+        let new_name = params.name
 
         let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, name) VALUES ('" + user_id +"','"+ new_name + "')"
+        let response = ""
 
         connection.query(sql, (err) => {
-            if (err) throw  err
-            console.log("user id "+ user_id + "has changed his name to "+ new_name)
+            if (err){
+                throw  err
+                response = json_maker.error("5","an error occured during the name change process")
+                cb(response)
+
+            }else{
+                console.log("user id "+ user_id + " has changed his name to "+ new_name)
+                response = json_maker.generic("ok","name changed")
+                cb(response)
+            }
         })
+
+
     }
 
-    static change_password(user_id , new_password){
+    static change_password(params, cb){
+        let user_id = params.user_id
+        let name = params.name
+        let password = params.password
+        let new_password = params.new_password
+
+        let response = this.check_login_password(name, password)
 
         let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, password) VALUES ('" + user_id +"','"+ new_password + "')"
 
         connection.query(sql, (err) => {
-            if (err) throw  err
-            console.log("user id "+ user_id + "has changed his password from to "+ new_password)
+            if (err){
+                throw  err
+                response = json_maker.error("6","an error occured during the password change process")
+                cb(response)
+
+            }else{
+                console.log("user id "+ user_id + "has changed his password from to "+ new_password)
+                response = json_maker.generic("ok","password changed")
+                cb(response)
+            }
         })
+
     }
 
-    static change_pseudo(user_id , new_pseudo){
+    static change_pseudo(params, cb){
+        let user_id = params.user_id
+        let name = params.name
+        let pseudo = params.pseudo
+        let response = ""
 
-        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, pseudo) VALUES ('" + user_id +"','"+ new_pseudo + "')"
+        let sql = "REPLACE INTO STATIC_USER_TABLE (name, pseudo) VALUES ('" + name +"','"+ pseudo + "')"
 
         connection.query(sql, (err) => {
-            if (err) throw  err
-            console.log("user id "+ user_id + "has changed his password from to "+ new_pseudo)
+            if (err){
+                throw  err
+                response = json_maker.error("7","an error occured during the pseudo change process")
+                cb(response)
+
+            }else{
+                console.log("user id "+ user_id + "has changed his pseudo from to "+ pseudo)
+                response = json_maker.generic("ok","pseudo changed")
+                cb(response)
+            }
         })
 
     }

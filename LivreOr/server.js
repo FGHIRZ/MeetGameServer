@@ -72,7 +72,6 @@ app.post('/', (request,response) => {
             break;
 
         case 'delete_account':
-
             Handler.delete_account(request.body.params, function (status){
                 response.setHeader('Content-Type', 'application/json');
                 response.end(JSON.stringify(status))

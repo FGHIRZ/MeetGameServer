@@ -14,13 +14,19 @@ class json_maker{
         }
         return output
     }
-    static create_account(status)
+
+    static generic(status, description)
     {
+        let params = {
+            "description" : description
+        }
         let output = {
-            "status" : status
+            "status" : status,
+            "params" : params
         }
         return output
     }
+
 
     static update (result){
 
@@ -46,6 +52,7 @@ class json_maker{
         }
         return output
     }
+
 
 }
 
