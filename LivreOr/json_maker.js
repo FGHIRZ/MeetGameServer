@@ -28,15 +28,13 @@ class json_maker{
     }
 
 
-    static update (result){
+    static user_list (user_list){
 
-        let user_list  = JSON.parse(JSON.stringify(result));
         let output = {
             "status" : "ok",
             "params" : user_list
         }
 
-        console.log(output)
         return output
     }
 

@@ -18,7 +18,6 @@ class Handler {
               let sql_query = "SELECT user_id, name, skin  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
               let select = await this.query_db(sql_query)
               let user = select[0]
-              console.log("test", user)
               this.update_dynamic_user_table(user.user_id, user.skin)
               response = json_maker.login(user)
               cb(response)
@@ -75,8 +74,8 @@ class Handler {
         let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
         await this.query_db(sql)
         sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
-        let user_list = await  this.query_db(sql)
-        let response = json_maker.update(user_list)
+        let user_list = await this.query_db(sql)
+        let response = json_maker.user_list(user_list)
         cb(response)
     }
 
