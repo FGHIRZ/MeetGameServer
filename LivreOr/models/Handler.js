@@ -16,7 +16,7 @@ class Handler {
         try {
               let response = await this.check_login_password(name, password)
               let sql_query = "SELECT user_id, name, skin  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-              let select = await this.query_db(sql_query)
+              let select = await this.db_query(sql_query)
               let user = select[0]
               this.update_dynamic_user_table(user.user_id, user.skin)
               response = json_maker.login(user)
@@ -26,13 +26,20 @@ class Handler {
         }
     }
 
-    static query_db(sql){
+    static db_query(sql){
       return new Promise(function(resolve, reject) {
         connection.query(sql, (err, result) => {
           if(err) return reject(err)
           resolve(result)
         })
       })
+    }
+
+    static syn_db_query(sql){
+        connection.query(sql, (err, result) => {
+          if(err) return err
+          return result
+        })
     }
 
     static update_dynamic_user_table(user_id, skin){
@@ -46,7 +53,7 @@ class Handler {
       return new Promise(async (resolve, reject) => {
 
         let sql_query = "SELECT name, password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        let users = await this.query_db(sql_query)
+        let users = await this.db_query(sql_query)
 
         if(users.length === 0){
             let response =  json_maker.error(1, "this account does not exist")
@@ -71,10 +78,14 @@ class Handler {
         let user_id = params.user_id
         let lon = params.location.lon
         let lat = params.location.lat
-        let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
-        await this.query_db(sql)
+        let visible = params.visible
+        if(visible)
+        {
+          let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
+          this.sync_db_query(sql)
+        }
         sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
-        let user_list = await this.query_db(sql)
+        let user_list = await this.db_query(sql)
         let response = json_maker.user_list(user_list)
         cb(response)
     }
@@ -86,7 +97,7 @@ class Handler {
         let password = params.password
         //check if this name is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        let result = await this.query_db(sql)
+        let result = await this.db_query(sql)
         let response=""
         if (result.length === 0)
         {
