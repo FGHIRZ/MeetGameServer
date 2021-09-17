@@ -21,11 +21,8 @@ class Handler {
             console.log("test", user)
             this.update_dynamic_user_table(user.user_id, user.skin)
             response = json_maker.login(user)
-            cb(response)
         }
-        else{
-          cb(error)
-        }
+        cb(response)
     }
 
     static query_db(sql){
