@@ -82,7 +82,7 @@ class Handler {
         if(visible)
         {
           let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
-          this.sync_db_query(sql)
+          this.syn_db_query(sql)
         }
         sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
         let user_list = await this.db_query(sql)
