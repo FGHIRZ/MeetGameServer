@@ -41,6 +41,19 @@ class json_maker{
         return output
     }
 
+    static event_list (user_list){
+
+        let params = {
+          "event_list" : event_list
+        }
+        let output = {
+            "status" : "ok",
+            "params" : params
+        }
+
+        return output
+    }
+
     static login(user)
     {
         let params = {

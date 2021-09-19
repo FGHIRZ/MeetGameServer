@@ -73,7 +73,7 @@ class Handler {
 
     }
 
-    static async update (params, cb) {
+    static async get_user_list (params, cb) {
 
         let user_id = params.user_id
         let lon = params.location.lon
@@ -88,6 +88,28 @@ class Handler {
         let user_list = await this.db_query(sql)
         let response = json_maker.user_list(user_list)
         cb(response)
+    }
+
+    static async get_event_list (params, cb) {
+
+        let user_id = params.user_id
+        let lon = params.location.lon
+        let lat = params.location.lat
+        let sql = "SELECT * FROM DYNAMIC_EVENT_TABLE"
+        let event_list = await this.db_query(sql)
+        let response = json_maker.event_list(event_list)
+        cb(response)
+    }
+
+    static async create_event(params, cb){
+
+            let type = params.type
+            let lat = params.location.lat
+            let lon = params.location.lon
+            let sqliquery = "INSERT INTO DYNAMIC_EVENT_TABLE (type, creationdate, lat, lon) VALUES ('" + type + "', NOW() , " + lat + ", " + lon + ")"
+            this.sync_db_query(sql_query)
+            let response = json_maker.generic("ok" ,"event added")
+            cb(response)
     }
 
     static async create_account(params, cb){

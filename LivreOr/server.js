@@ -52,8 +52,8 @@ app.post('/', (request,response) => {
             })
 
             break;
-        case 'update':
-            Handler.update(request.body.params, function (user_list){
+        case 'get_user_list':
+            Handler.get_user_list(request.body.params, function (user_list){
               response.setHeader('Content-Type', 'application/json');
               response.end(JSON.stringify(user_list))
             })
