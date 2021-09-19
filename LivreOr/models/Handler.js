@@ -96,8 +96,8 @@ class Handler {
         let lat = params.location.lat
         let sql = "SELECT * FROM DYNAMIC_EVENT_TABLE"
         let event_list = await this.db_query(sql)
-        console.log(event_list)
         let response = json_maker.event_list(event_list)
+        console.log(response)
         cb(response)
     }
 
