@@ -40,7 +40,7 @@ class Handler {
 
     static sync_db_query(sql){
         connection.query(sql, (err, result) => {
-          if(err) return err
+          if(err) console.log(err);return err
           console.log("tout vas bien", result)
           return result
         })
