@@ -108,7 +108,7 @@ class Handler {
             let type = params.type
             let lat = params.location.lat
             let lon = params.location.lon
-            let sqliquery = "INSERT INTO DYNAMIC_EVENT_TABLE (type, creationdate, lat, lon) VALUES ('" + type + "', NOW() , " + lat + ", " + lon + ")"
+            let sql_query = "INSERT INTO DYNAMIC_EVENT_TABLE (type, creationdate, lat, lon) VALUES ('" + type + "', NOW() , " + lat + ", " + lon + ")"
             this.sync_db_query(sql_query)
             let response = json_maker.generic("ok" ,"event added")
             cb(response)
