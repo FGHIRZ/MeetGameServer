@@ -60,7 +60,7 @@ app.post('/', (request,response) => {
             break;
 
        case 'create_event':
-                    Handler.create_event(request, function (resp){
+                    Handler.create_event(request.body.params, function (resp){
                       response.setHeader('Content-Type', 'application/json');
                       response.end(JSON.stringify(resp))
                     })
