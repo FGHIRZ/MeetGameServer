@@ -35,7 +35,7 @@ class Handler {
       })
     }
 
-    static syn_db_query(sql){
+    static sync_db_query(sql){
         connection.query(sql, (err, result) => {
           if(err) return err
           return result
@@ -82,7 +82,7 @@ class Handler {
         if(visible)
         {
           let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
-          this.syn_db_query(sql)
+          this.sync_db_query(sql)
         }
         let sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
         let user_list = await this.db_query(sql)
@@ -96,6 +96,7 @@ class Handler {
         let lat = params.location.lat
         let sql = "SELECT * FROM DYNAMIC_EVENT_TABLE"
         let event_list = await this.db_query(sql)
+        console.log(event_list)
         let response = json_maker.event_list(event_list)
         cb(response)
     }
