@@ -41,7 +41,7 @@ class json_maker{
         return output
     }
 
-    static event_list (user_list){
+    static event_list (event_list){
 
         let params = {
           "event_list" : event_list

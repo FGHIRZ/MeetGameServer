@@ -33,7 +33,6 @@ class Handler {
       return new Promise(function(resolve, reject) {
         connection.query(sql, (err, result) => {
           if(err) return reject(err)
-          console.log("tout vas bien", result)
           resolve(result)
         })
       })
@@ -90,7 +89,6 @@ class Handler {
         }
         let sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
         let user_list = await this.db_query(sql)
-        console.log(user_list)
         let response = json_maker.user_list(user_list)
         cb(response)
     }
@@ -102,7 +100,6 @@ class Handler {
         let sql = "SELECT * FROM DYNAMIC_EVENT_TABLE"
         let event_list = await this.db_query(sql)
         let response = json_maker.event_list(event_list)
-        console.log(response)
         cb(response)
     }
 
