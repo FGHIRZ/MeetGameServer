@@ -92,7 +92,6 @@ class Handler {
 
     static async get_event_list (params, cb) {
 
-        let user_id = params.user_id
         let lon = params.location.lon
         let lat = params.location.lat
         let sql = "SELECT * FROM DYNAMIC_EVENT_TABLE"

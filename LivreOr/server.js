@@ -41,7 +41,7 @@ app.post('/', (request,response) => {
 
     //let Handler = require('./models/Handler')
     let request_type = request.body.request
-    console.log("A request of type : ", request_type, " as been received")
+    console.log("A request of type : ", request_type, " has been received")
 
     switch (request_type) {
         case 'login':
