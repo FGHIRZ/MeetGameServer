@@ -7,7 +7,10 @@ class Handler {
 
         connection.query('DELETE FROM DYNAMIC_USER_TABLE', [], (err, result) => {
             if (err) throw  err
-            })
+          })
+          connection.query('DELETE FROM DYNAMIC_EVENT_TABLE', [], (err, result) => {
+              if (err) throw  err
+              })
     }
 
     static async login (params, cb) {
@@ -38,6 +41,7 @@ class Handler {
     static sync_db_query(sql){
         connection.query(sql, (err, result) => {
           if(err) return err
+          console.log("tout vas bien", result)
           return result
         })
     }
