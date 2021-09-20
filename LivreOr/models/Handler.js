@@ -56,22 +56,26 @@ class Handler {
       return new Promise(async (resolve, reject) => {
 
         let sql_query = "SELECT name, password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-        let users = await this.db_query(sql_query)
+          try{
+              let users = await this.db_query(sql_query)
+              if(users.length === 0){
+                  let response =  json_maker.error(1, "this account does not exist")
+                  reject(response)
 
-        if(users.length === 0){
-            let response =  json_maker.error(1, "this account does not exist")
-            reject(response)
+              }else{
 
-        }else{
+                  let user = users[0]
+                  if(user.password === password){
+                      resolve(user)
+                  }else{
+                      let response = json_maker.error(2, "the name and the password does not match")
+                      reject(response)
+                  }
+              }
+          }catch(error){
+            reject(error)
+          }
 
-            let user = users[0]
-            if(user.password === password){
-                resolve(user)
-            }else{
-                let response = json_maker.error(2, "the name and the password does not match")
-                reject(response)
-            }
-        }
       })
 
     }
@@ -117,7 +121,7 @@ class Handler {
     static async create_account(params, cb){
 
         let name = params.name
-        let skin = 'skin1'
+        let skin = 'default_skin'
         let password = params.password
         //check if this name is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
@@ -150,27 +154,38 @@ class Handler {
     }
 
     static delete_account(params,cb){
-        let user_id = params.user_id
-        let response = ""
-        let sql = "DELETE FROM STATIC_USER_TABLE (user_id) VALUES ('" + user_id + "')"
+        let name = params.name
+        let password = params.password
+        try {
+            // check if login and password match
+            let response = await this.check_login_password(name, password)
 
-        connection.query(sql, (err) => {
-            if (err){
-                throw  err
-                response = json_maker.error("4","an error occured during the removal process")
-                cb(response)
+            let sql = "DELETE FROM STATIC_USER_TABLE (name) VALUES ('" + name + "')"
+            connection.query(sql, (err) => {
+                if (err){
+                    throw  err
+                    response = json_maker.error("4","an error occured during the removal process")
+                    cb(response)
 
-            }else{
-                 console.log("user id "+ user_id + "has removed from the database ")
-                response = json_maker.generic("ok","account deleted")
-                cb(response)
-            }
-        })
+                }else{
+                    console.log("user "+ name + "has removed from the database.")
+                    response = json_maker.generic("ok","account deleted")
+                    cb(response)
+                }
+            })
+
+        }catch(error){
+
+        }
+
+
+
     }
 
     static change_name(params, cb){
         let user_id = params.user_id
-        let new_name = params.name
+        let new_name = params.new_name
+
 
         let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, name) VALUES ('" + user_id +"','"+ new_name + "')"
         let response = ""
