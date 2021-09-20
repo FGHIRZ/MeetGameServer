@@ -189,7 +189,7 @@ class Handler {
 
         let sql = 'UPDATE STATIC_USER_TABLE ' +
                 'SET name = ? ' +
-                'WHERE id = ?'
+                'WHERE user_id = ?'
         let data = [new_username,user_id];
 
         let response = ""
