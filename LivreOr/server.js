@@ -88,8 +88,8 @@ app.post('/', (request,response) => {
             })
             break;
 
-        case 'change_name':
-            Handler.change_name(request.body.params, function (status){
+        case 'change_username':
+            Handler.change_username(request.body.params, function (status){
                 response.setHeader('Content-Type', 'application/json');
                 response.end(JSON.stringify(status))
             })

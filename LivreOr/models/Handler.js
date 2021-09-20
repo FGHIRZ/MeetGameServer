@@ -182,7 +182,7 @@ class Handler {
 
     }
 
-    static change_name(params, cb){
+    static change_username(params, cb){
         let user_id = params.user_id
         let new_name = params.new_name
 
