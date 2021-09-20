@@ -5,10 +5,10 @@ class Handler {
 
     static empty_dynamic_tables () {
 
-        connection.query('DELETE FROM DYNAMIC_USER_TABLE', [], (err, result) => {
+        connection.query('DELETE FROM DYNAMIC_USER_TABLE', [], (err) => {
             if (err) throw  err
           })
-          connection.query('DELETE FROM DYNAMIC_EVENT_TABLE', [], (err, result) => {
+          connection.query('DELETE FROM DYNAMIC_EVENT_TABLE', [], (err) => {
               if (err) throw  err
               })
     }
@@ -153,7 +153,7 @@ class Handler {
       })
     }
 
-    static delete_account(params,cb){
+    static async delete_account(params,cb){
         let name = params.name
         let password = params.password
         try {
