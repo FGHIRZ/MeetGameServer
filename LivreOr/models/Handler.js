@@ -184,20 +184,24 @@ class Handler {
 
     static change_username(params, cb){
         let user_id = params.user_id
-        let new_name = params.new_name
+        let new_username = params.new_name
 
 
-        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, name) VALUES ('" + user_id +"','"+ new_name + "')"
+        let sql = 'UPDATE STATIC_USER_TABLE ' +
+                'SET name = ? ' +
+                'WHERE id = ?'
+        let data = [new_username,user_id];
+
         let response = ""
 
-        connection.query(sql, (err) => {
+        connection.query(sql,data, (err) => {
             if (err){
                 throw  err
                 response = json_maker.error("5","an error occured during the name change process")
                 cb(response)
 
             }else{
-                console.log("user id "+ user_id + " has changed his name to "+ new_name)
+                console.log("user id "+ user_id + " has changed his name to "+ new_username)
                 response = json_maker.generic("ok","name changed")
                 cb(response)
             }
