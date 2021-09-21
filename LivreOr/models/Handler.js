@@ -148,8 +148,32 @@ class Handler {
       })
     }
 
-    static delete_account(params,cb){
+    static async delete_account(params,cb){
         let user_id = params.user_id
+        let username = params.username
+        let password = params.password
+
+        try {
+            let response = await this.check_login_password(username, password)
+            let sql = "DELETE FROM STATIC_USER_TABLE " +
+                "WHERE user_id = ?" 
+            let data = [user_id]
+
+            connection.query(sql,data, (err) => {
+                if (err){
+                    throw  err
+                    response = json_maker.error("4","an error occured during the account removal process")
+                    cb(response)
+
+                }else{
+                    console.log("user id "+ user_id + "has removed from the database ")
+                    response = json_maker.generic("ok","account deleted")
+                    cb(response)
+                }
+            })
+        }catch(error){
+            cb(error)
+        }
 
         let response = ""
         let sql = "DELETE FROM STATIC_USER_TABLE (user_id) VALUES ('" + user_id + "')"
