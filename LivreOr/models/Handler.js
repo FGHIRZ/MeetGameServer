@@ -198,9 +198,12 @@ class Handler {
 
         let response = this.check_login_password(name, password)
 
-        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, password) VALUES ('" + user_id +"','"+ new_password + "')"
+        let sql = "UPDATE STATIC_USER_TABLE " +
+            "SET password = ?" +
+            "WHERE user_id = ?"
+        let data = [new_password, user_id]
 
-        connection.query(sql, (err) => {
+        connection.query(sql,data, (err) => {
             if (err){
                 throw  err
                 response = json_maker.error("6","an error occured during the password change process")
