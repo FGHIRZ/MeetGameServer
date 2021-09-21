@@ -150,6 +150,7 @@ class Handler {
 
     static delete_account(params,cb){
         let user_id = params.user_id
+
         let response = ""
         let sql = "DELETE FROM STATIC_USER_TABLE (user_id) VALUES ('" + user_id + "')"
 
@@ -186,7 +187,6 @@ class Handler {
                 cb(response)
             }
         })
-
 
     }
 
