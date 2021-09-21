@@ -190,13 +190,13 @@ class Handler {
 
     }
 
-    static change_password(params, cb){
+    static async change_password(params, cb){
         let user_id = params.user_id
         let name = params.name
         let password = params.password
         let new_password = params.new_password
 
-        let response = this.check_login_password(name, password)
+        let response = await this.check_login_password(name, password)
 
         let sql = "UPDATE STATIC_USER_TABLE " +
             "SET password = ?" +
