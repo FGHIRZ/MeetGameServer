@@ -66,6 +66,7 @@ class Handler {
 
             let user = users[0]
             if(user.password === password){
+                console.log("login and password are matching")
                 resolve(user)
             }else{
                 let response = json_maker.error(2, "the name and the password does not match")
@@ -153,8 +154,11 @@ class Handler {
         let username = params.username
         let password = params.password
 
+        console.log(params)
+
         try {
             let response = await this.check_login_password(username, password)
+
             let sql = "DELETE FROM STATIC_USER_TABLE " +
                 "WHERE user_id = ?" 
             let data = [user_id]
