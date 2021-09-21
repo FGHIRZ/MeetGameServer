@@ -179,21 +179,6 @@ class Handler {
             cb(error)
         }
 
-        let response = ""
-        let sql = "DELETE FROM STATIC_USER_TABLE (user_id) VALUES ('" + user_id + "')"
-
-        connection.query(sql, (err) => {
-            if (err){
-                throw  err
-                response = json_maker.error("4","an error occured during the removal process")
-                cb(response)
-
-            }else{
-                 console.log("user id "+ user_id + "has removed from the database ")
-                response = json_maker.generic("ok","account deleted")
-                cb(response)
-            }
-        })
     }
 
     static change_name(params, cb){
