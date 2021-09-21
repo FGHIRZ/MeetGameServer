@@ -5,10 +5,10 @@ class Handler {
 
     static empty_dynamic_tables () {
 
-        connection.query('DELETE FROM DYNAMIC_USER_TABLE', [], (err) => {
+        connection.query('DELETE FROM DYNAMIC_USER_TABLE', [], (err, result) => {
             if (err) throw  err
           })
-          connection.query('DELETE FROM DYNAMIC_EVENT_TABLE', [], (err) => {
+          connection.query('DELETE FROM DYNAMIC_EVENT_TABLE', [], (err, result) => {
               if (err) throw  err
               })
     }
@@ -18,11 +18,11 @@ class Handler {
         let password = params.password
         try {
               let response = await this.check_login_password(name, password)
-              let sql_query = "SELECT user_id, name, skin  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+              let sql_query = "SELECT user_id, name, skin, pseudo  FROM STATIC_USER_TABLE WHERE name='" + name +"'"
               let select = await this.db_query(sql_query)
               let user = select[0]
-              this.update_dynamic_user_table(user.user_id, user.skin)
-              response = json_maker.login(user)
+              this.update_dynamic_user_table(user.user_id, user.skin, user.pseudo)
+              response = json_maker.user(user)
               cb(response)
         } catch (e) {
             cb(e)
@@ -56,28 +56,23 @@ class Handler {
       return new Promise(async (resolve, reject) => {
 
         let sql_query = "SELECT name, password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
-          try{
-              let users = await this.db_query(sql_query)
-              if(users.length === 0){
-                  let response =  json_maker.error(1, "this account does not exist")
-                  reject(response)
+        let users = await this.db_query(sql_query)
 
-              }else{
+        if(users.length === 0){
+            let response =  json_maker.error(1, "this account does not exist")
+            reject(response)
 
-                  let user = users[0]
-                  if(user.password === password){
-                      resolve(user)
-                  }else{
-                      let response = json_maker.error(2, "the name and the password does not match")
-                      reject(response)
-                  }
-              }
-          }catch(error){
-            reject(error)
-          }
+        }else{
 
+            let user = users[0]
+            if(user.password === password){
+                resolve(user)
+            }else{
+                let response = json_maker.error(2, "the name and the password does not match")
+                reject(response)
+            }
+        }
       })
-
     }
 
     static async get_user_list (params, cb) {
@@ -121,7 +116,7 @@ class Handler {
     static async create_account(params, cb){
 
         let name = params.name
-        let skin = 'default_skin'
+        let skin = 'skin1'
         let password = params.password
         //check if this name is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
@@ -153,55 +148,40 @@ class Handler {
       })
     }
 
-    static async delete_account(params,cb){
-        let name = params.name
-        let password = params.password
-        try {
-            // check if login and password match
-            let response = await this.check_login_password(name, password)
+    static delete_account(params,cb){
+        let user_id = params.user_id
+        let response = ""
+        let sql = "DELETE FROM STATIC_USER_TABLE (user_id) VALUES ('" + user_id + "')"
 
-            let sql = "DELETE FROM STATIC_USER_TABLE (name) VALUES ('" + name + "')"
-            connection.query(sql, (err) => {
-                if (err){
-                    throw  err
-                    response = json_maker.error("4","an error occured during the removal process")
-                    cb(response)
+        connection.query(sql, (err) => {
+            if (err){
+                throw  err
+                response = json_maker.error("4","an error occured during the removal process")
+                cb(response)
 
-                }else{
-                    console.log("user "+ name + "has removed from the database.")
-                    response = json_maker.generic("ok","account deleted")
-                    cb(response)
-                }
-            })
-
-        }catch(error){
-
-        }
-
-
-
+            }else{
+                 console.log("user id "+ user_id + "has removed from the database ")
+                response = json_maker.generic("ok","account deleted")
+                cb(response)
+            }
+        })
     }
 
-    static change_username(params, cb){
+    static change_name(params, cb){
         let user_id = params.user_id
-        let new_username = params.new_name
+        let new_name = params.name
 
-
-        let sql = 'UPDATE STATIC_USER_TABLE ' +
-                'SET name = ? ' +
-                'WHERE user_id = ?'
-        let data = [new_username,user_id];
-
+        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, name) VALUES ('" + user_id +"','"+ new_name + "')"
         let response = ""
 
-        connection.query(sql,data, (err) => {
+        connection.query(sql, (err) => {
             if (err){
                 throw  err
                 response = json_maker.error("5","an error occured during the name change process")
                 cb(response)
 
             }else{
-                console.log("user id "+ user_id + " has changed his name to "+ new_username)
+                console.log("user id "+ user_id + " has changed his name to "+ new_name)
                 response = json_maker.generic("ok","name changed")
                 cb(response)
             }
