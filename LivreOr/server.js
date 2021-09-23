@@ -13,7 +13,7 @@ app.set('view engine', 'ejs')
 
 //MiddleWare
 app.use('/assets', express.static('public'))
-app.use('/skins', express.static('skins'))
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 app.use(express.json())
@@ -27,14 +27,6 @@ app.use(session({
 
 app.use(require('./middleware/flash'))
 
-// Routes
-app.get('/skins', (request, response) => {
-
-    res.json(users)
-    console.log(request.body)
-    console.log(request.session)
-    response.render('pages/index', {test: 'Salut'})
-})
 
 app.post('/', (request,response) => {
 
