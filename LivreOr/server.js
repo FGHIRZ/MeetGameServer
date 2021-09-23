@@ -13,6 +13,7 @@ app.set('view engine', 'ejs')
 
 //MiddleWare
 app.use('/assets', express.static('public'))
+app.use('/skins', express.static('skins'))
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 app.use(express.json())
