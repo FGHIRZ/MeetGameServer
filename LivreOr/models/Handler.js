@@ -95,8 +95,6 @@ class Handler {
 
     static async get_event_list (params, cb) {
 
-        let lon = params.location.lon
-        let lat = params.location.lat
         let sql = "SELECT * FROM DYNAMIC_EVENT_TABLE"
         let event_list = await this.db_query(sql)
         let response = json_maker.event_list(event_list)
@@ -117,7 +115,7 @@ class Handler {
     static async create_account(params, cb){
 
         let name = params.name
-        let skin = 'skin1'
+        let skin = 'default_skin'
         let password = params.password
         //check if this name is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
@@ -141,11 +139,10 @@ class Handler {
     static async insert_account(name, skin, password){
 
       return new Promise(async (resolve, reject) => {
-        let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password) VALUES ('" + name + "','" + skin + "','" + password + "')"
+        let sql = "INSERT INTO STATIC_USER_TABLE (name, skin, password, pseudo, created_at) VALUES ('" + name + "','" + skin + "','" + password + "','" + name + "', NOW() )"
 
         connection.query(sql, (err) => {
             if (err) reject(err)
-            console.log("account ", name , "added to the db")
             resolve()
         })
       })
