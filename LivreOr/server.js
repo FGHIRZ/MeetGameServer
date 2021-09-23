@@ -28,12 +28,12 @@ app.use(session({
 app.use(require('./middleware/flash'))
 
 // Routes
-app.get('/users', (request, response) => {
+app.get('/skins', (request, response) => {
 
     res.json(users)
-    // console.log(request.body)
-    // console.log(request.session)
-    // response.render('pages/index', {test: 'Salut'})
+    console.log(request.body)
+    console.log(request.session)
+    response.render('pages/index', {test: 'Salut'})
 })
 
 app.post('/', (request,response) => {
