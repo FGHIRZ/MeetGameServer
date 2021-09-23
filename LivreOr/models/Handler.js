@@ -184,7 +184,7 @@ class Handler {
         let user_id = params.user_id
         let new_username = params.username
 
-        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, name) VALUES ('" + user_id +"','"+ new_username + "')"
+        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, username) VALUES ('" + user_id +"','"+ new_username + "')"
         let response = ""
 
         connection.query(sql, (err) => {
