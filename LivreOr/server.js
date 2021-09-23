@@ -40,7 +40,7 @@ app.post('/', (request,response) => {
         case 'login':
               Handler.login(request.body.params, function (resp){
               console.log("sending back : ", resp)
-              response.setHeader('Content-Type', 'application/json');
+              response.setHeader('Content-Type', 'application/json'
               response.end(JSON.stringify(resp))
               console.log("renvoi : ", JSON.stringify(resp))
             })
