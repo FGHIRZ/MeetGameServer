@@ -52,10 +52,10 @@ class Handler {
         })
     }
 
-    static async check_login_password(name, password){
+    static async check_login_password(username, password){
       return new Promise(async (resolve, reject) => {
 
-        let sql_query = "SELECT name, password FROM STATIC_USER_TABLE WHERE name='" + name +"'"
+        let sql_query = "SELECT username, password FROM STATIC_USER_TABLE WHERE username='" + username +"'"
         let users = await this.db_query(sql_query)
 
         if(users.length === 0){
@@ -69,7 +69,7 @@ class Handler {
                 console.log("login and password are matching")
                 resolve(user)
             }else{
-                let response = json_maker.error(2, "the name and the password does not match")
+                let response = json_maker.error(2, "the username and the password does not match")
                 reject(response)
             }
         }
@@ -190,12 +190,12 @@ class Handler {
         connection.query(sql, (err) => {
             if (err){
                 throw  err
-                response = json_maker.error("5","an error occured during the name change process")
+                response = json_maker.error("5","an error occured during the username change process")
                 cb(response)
 
             }else{
-                console.log("user id "+ user_id + " has changed his name to "+ new_username)
-                response = json_maker.generic("ok","name changed")
+                console.log("user id "+ user_id + " has changed his username to "+ new_username)
+                response = json_maker.generic("ok","username changed")
                 cb(response)
             }
         })
