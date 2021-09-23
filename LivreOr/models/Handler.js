@@ -123,16 +123,18 @@ class Handler {
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE name='" + name +"'"
         let result = await this.db_query(sql)
         let response=""
-        if (result.length === 0)
-        {
+        if (result.length === 0){
           try {
             await this.insert_account(name, skin, password)
             let response = json_maker.generic("ok" ,"account added")
             cb(response)
           } catch (e) {
-            let response = json_maker.error(1, "This account already exists!")
+            let response = json_maker.error(8, "A problem occured during the insert of account!")
             cb(response)
           }
+        }else{
+            let response = json_maker.error(1, "This account already exists!")
+            cb(response)
         }
     }
 
