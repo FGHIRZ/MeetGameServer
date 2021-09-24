@@ -124,7 +124,7 @@ app.post('/', (request,response) => {
     // }
 })
 
-app.get('/skins' (request,response) => {
+app.get('/skins', (request,response) => {
 
   let file_list = fs.readdirSync(skinFolder)
   let file_list_json = {
