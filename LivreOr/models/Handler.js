@@ -23,9 +23,8 @@ class Handler {
             let select = await this.db_query(sql_query)
             let user = select[0]
             let token = tokenGenerator.getToken()
-            user.token = token
             this.update_dynamic_user_table(user.user_id, user.skin, user.pseudo, token)
-            response = json_maker.user(user)
+            response = json_maker.user(user, token)
             cb(response)
         } catch (e) {
             cb(e)

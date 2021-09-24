@@ -59,7 +59,7 @@ class json_maker{
         let params = {
             "user_id" : user.user_id,
             "skin" : user.skin,
-            "pseudo" : user.pseudo
+            "pseudo" : user.pseudo,
             "token" : user.token
         }
         let output = {
