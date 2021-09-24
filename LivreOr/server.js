@@ -7,6 +7,8 @@ const Handler = require("./models/Handler");
 
 
 const users = []
+const skinFolder = './public/skins';
+const fs = require('fs');
 
 // Moteur de template
 app.set('view engine', 'ejs')
@@ -27,6 +29,15 @@ app.use(session({
 
 app.use(require('./middleware/flash'))
 
+app.get('/skins' (request,response)) => {
+
+  file_list = fs.readdirSync(skinFolder)
+  let file_list_json = {
+    "file_list" : file_list
+  }
+   response.setHeader('Content-type', 'application/json')
+   response.end(JSON.stringify(file_list))
+}
 
 app.post('/', (request,response) => {
 
