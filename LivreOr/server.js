@@ -108,20 +108,6 @@ app.post('/', (request,response) => {
             console.log("this request isn't recognized");
     }
 
-    // if (request.body === undefined || request.body.message === ''){
-    //
-    //     // request.flash('error', "Vous n'avez pas posté de message")
-    //     // response.redirect('/')
-    //
-    // }else{
-    //     let Message = require('./models/message')
-    //
-    //     Message.create(request.body, function (){
-    //         console.log("message reçu", request.body)
-    //         // request.flash('succes', "Merci !")
-    //         // response.redirect('/')   <
-    //     })
-    // }
 })
 
 app.get('/skins', (request,response) => {

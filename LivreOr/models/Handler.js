@@ -1,5 +1,6 @@
 let connection = require('../config/db')
 const json_maker = require("../json_maker");
+const TokenGenerator = require("../TokenGenerator");
 
 class Handler {
 
@@ -17,13 +18,14 @@ class Handler {
         let username = params.username
         let password = params.password
         try {
-              let response = await this.check_login_password(username, password)
-              let sql_query = "SELECT user_id, username, skin, pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
-              let select = await this.db_query(sql_query)
-              let user = select[0]
-              this.update_dynamic_user_table(user.user_id, user.skin, user.pseudo)
-              response = json_maker.user(user)
-              cb(response)
+            let response = await this.check_login_password(username, password)
+            let sql_query = "SELECT user_id, username, skin, pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
+            let select = await this.db_query(sql_query)
+            let user = select[0]
+            let token = TokenGenerator.getToken()
+            this.update_dynamic_user_table(user.user_id, user.skin, user.pseudo, token)
+            response = json_maker.user(user)
+            cb(response)
         } catch (e) {
             cb(e)
         }

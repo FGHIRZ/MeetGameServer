@@ -2,7 +2,7 @@
 
 class tokenGenerator{
 
-    static generate_token(length){
+    static getToken(length){
         //edit the token allowed characters
         var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
         var b = [];
