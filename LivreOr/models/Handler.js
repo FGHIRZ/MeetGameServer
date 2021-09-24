@@ -258,6 +258,29 @@ class Handler {
 
     }
 
+    static async checkToken(params, cb){
+        let user_id = params.user_id
+        let token = params.token
+
+        let json_response = ""
+
+        try {
+            let sql_query = "SELECT token FROM DYNAMIC_USER_TABLE WHERE user_id='" + user_id +"'"
+            let response = await this.db_query(sql_query)
+
+            if (response === token){
+                 json_response = json_maker.generic("ok","Token OK")
+            }else{
+                 json_response = json_maker.error(10,"Token is incorrect")
+            }
+            cb (json_response)
+
+        } catch (e) {
+            cb(e)
+        }
+
+    }
+
 
 
 }
