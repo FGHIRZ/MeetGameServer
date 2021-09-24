@@ -127,6 +127,10 @@ app.post('/', (request,response) => {
 app.get('/skins', (request,response) => {
 
   let file_list = fs.readdirSync(skinFolder)
+  file_list.forEach((file, i) => {
+    file_list[i]=file.substring(0, file.length-4)
+  });
+
   let file_list_json = {
     "file_list" : file_list
   }
