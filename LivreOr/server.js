@@ -135,7 +135,7 @@ app.get('/skins', (request,response) => {
     "file_list" : file_list
   }
    response.setHeader('Content-type', 'application/json')
-   response.end(JSON.stringify(file_list))
+   response.end(JSON.stringify(file_list_json))
 })
 
 console.log('server is running on port 8080')
