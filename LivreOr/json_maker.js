@@ -60,6 +60,7 @@ class json_maker{
             "user_id" : user.user_id,
             "skin" : user.skin,
             "pseudo" : user.pseudo
+            "token" : user.token
         }
         let output = {
             "status" : "ok",
