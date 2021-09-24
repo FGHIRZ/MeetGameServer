@@ -14,3 +14,5 @@ class tokenGenerator{
     }
 
 }
+
+module.exports = tokenGenerator

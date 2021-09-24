@@ -1,6 +1,6 @@
 let connection = require('../config/db')
 const json_maker = require("../json_maker");
-const TokenGenerator = require("../TokenGenerator");
+const tokenGenerator = require("../TokenGenerator");
 
 class Handler {
 
@@ -161,7 +161,7 @@ class Handler {
             let response = await this.check_login_password(username, password)
 
             let sql = "DELETE FROM STATIC_USER_TABLE " +
-                "WHERE user_id = ?" 
+                "WHERE user_id = ?"
             let data = [user_id]
 
             connection.query(sql,data, (err) => {
