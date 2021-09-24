@@ -54,13 +54,14 @@ class json_maker{
         return output
     }
 
-    static user(user)
+    static user(user, token)
     {
+       console.log(token)
         let params = {
             "user_id" : user.user_id,
             "skin" : user.skin,
             "pseudo" : user.pseudo,
-            "token" : user.token
+            "token" : token
         }
         let output = {
             "status" : "ok",
