@@ -22,7 +22,7 @@ class Handler {
             let sql_query = "SELECT user_id, username, skin, pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
             let select = await this.db_query(sql_query)
             let user = select[0]
-            let token = TokenGenerator.getToken()
+            let token = tokenGenerator.getToken()
             this.update_dynamic_user_table(user.user_id, user.skin, user.pseudo, token)
             response = json_maker.user(user)
             cb(response)
@@ -282,8 +282,6 @@ class Handler {
         }
 
     }
-
-
 
 }
 
