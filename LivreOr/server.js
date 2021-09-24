@@ -31,7 +31,7 @@ app.use(require('./middleware/flash'))
 
 app.get('/skins' (request,response)) => {
 
-  file_list = fs.readdirSync(skinFolder)
+  let file_list = fs.readdirSync(skinFolder)
   let file_list_json = {
     "file_list" : file_list
   }
