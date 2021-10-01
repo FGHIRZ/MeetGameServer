@@ -8,7 +8,7 @@ const Handler = require("./models/Handler")
 
 const users = []
 const skinFolder = './public/skins'
-const skinFolder = './public/events'
+const eventFolder = './public/events'
 const fs = require('fs')
 
 // Moteur de template
