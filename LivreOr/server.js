@@ -8,6 +8,7 @@ const Handler = require("./models/Handler")
 
 const users = []
 const skinFolder = './public/skins'
+const skinFolder = './public/events'
 const fs = require('fs')
 
 // Moteur de template
@@ -40,7 +41,7 @@ app.post('/', (request,response) => {
 
     switch (request_type) {
         case 'login':
-              Handler.login(request.body.params, function (resp){
+              Handler.login(reqLinearLayout.LayoutParams.WRAP_CONTENTLinearLayout.LayoutParams.WRAP_CONTENTLinearLayout.LayoutParams.WRAP_CONTENTuest.body.params, function (resp){
               console.log("sending back : ", resp)
               response.setHeader('Content-Type', 'application/json')
               response.end(JSON.stringify(resp))
@@ -113,6 +114,20 @@ app.post('/', (request,response) => {
 app.get('/skins', (request,response) => {
 
   let file_list = fs.readdirSync(skinFolder)
+  file_list.forEach((file, i) => {
+    file_list[i]=file.substring(0, file.length-4)
+  });
+
+  let file_list_json = {
+    "file_list" : file_list
+  }
+   response.setHeader('Content-type', 'application/json')
+   response.end(JSON.stringify(file_list_json))
+})
+
+app.get('/events', (request,response) => {
+
+  let file_list = fs.readdirSync(eventFolder)
   file_list.forEach((file, i) => {
     file_list[i]=file.substring(0, file.length-4)
   });
