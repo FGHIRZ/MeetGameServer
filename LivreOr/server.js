@@ -41,7 +41,7 @@ app.post('/', (request,response) => {
 
     switch (request_type) {
         case 'login':
-              Handler.login(reqLinearLayout.LayoutParams.WRAP_CONTENTLinearLayout.LayoutParams.WRAP_CONTENTLinearLayout.LayoutParams.WRAP_CONTENTuest.body.params, function (resp){
+              Handler.login(request.body.params, function (resp){
               console.log("sending back : ", resp)
               response.setHeader('Content-Type', 'application/json')
               response.end(JSON.stringify(resp))
