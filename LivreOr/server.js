@@ -98,7 +98,13 @@ app.post('/', (request,response) => {
             })
             break;
         case 'change_pseudo':
-            Handler.create_account(request.body.params, function (status){
+            Handler.change_pseudo(request.body.params, function (status){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
+        case 'change_skin':
+            Handler.change_skin(request.body.params, function (status){
                 response.setHeader('Content-Type', 'application/json');
                 response.end(JSON.stringify(status))
             })
