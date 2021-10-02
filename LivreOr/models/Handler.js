@@ -261,41 +261,26 @@ class Handler {
 
     }
 
-    static change_skin(params, cb){
+    static async change_skin(params, cb){
+
         let user_id = params.user_id
         let user_skin = params.user_skin
         let response = ""
 
-        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, skin) VALUES ('" + user_id +"','"+ user_skin + "')"
+        try{
+            let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, skin) VALUES ('" + user_id +"','"+ user_skin + "')"
+            await this.db_query(sql, (err))
 
-        connection.query(sql, (err) => {
-            if (err){
-                throw  err
-                response = json_maker.error("11","an error occured during the static skin change process")
-                cb(response)
+            sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, skin) VALUES ('" + user_id +"','"+ user_skin + "')"
+            await this.db_query(sql, (err))
+            console.log("user id "+ user_id + "has changed his skin  to "+ user_skin)
+            response = json_maker.generic("ok","skin changed")
+            cb(response)
 
-            }else{
-                console.log("user id "+ user_id + "has changed his skin  to "+ user_skin)
-                response = json_maker.generic("ok","static skin changed")
-                cb(response)
-            }
-        })
-
-        sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, skin) VALUES ('" + user_id +"','"+ user_skin + "')"
-
-        connection.query(sql, (err) => {
-            if (err){
-                throw  err
-                response = json_maker.error("12","an error occured during the dynamic skin change process")
-                cb(response)
-
-            }else{
-                console.log("user id "+ user_id + "has changed his skin to "+ user_skin)
-                response = json_maker.generic("ok","dynamic skin changed")
-                cb(response)
-            }
-        })
-
+        }catch(e){
+            let response = json_maker.error("12","an error occured during the skin change process : " + e)
+            cb(response)
+        }
     }
 
     static async checkToken(params, cb){
