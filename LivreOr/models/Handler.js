@@ -266,10 +266,12 @@ class Handler {
         let user_id = params.user_id
         let user_skin = params.user_skin
         let response = ""
+        console.log("user id "+ user_id + "new_skin "+ user_skin)
 
         try{
             let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, skin) VALUES ('" + user_id +"','"+ user_skin + "')"
             await this.db_query(sql, (err))
+
 
             sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, skin) VALUES ('" + user_id +"','"+ user_skin + "')"
             await this.db_query(sql, (err))
