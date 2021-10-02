@@ -270,11 +270,11 @@ class Handler {
 
         try{
 
-            let sql = "UPDATE STATIC_USER_TABLE SET skin = " + user_skin + " WHERE user_id = " + user_id
+            let sql = "UPDATE STATIC_USER_TABLE SET skin = ''" + user_skin + "' WHERE user_id = '" + user_id +"'"
             let result = await this.db_query(sql)
 
 
-            sql = "UPDATE DYNAMIC_USER_TABLE SET skin = " + user_skin + " WHERE user_id = " + user_id
+            sql = "UPDATE DYNAMIC_USER_TABLE SET skin = ''" + user_skin + "' WHERE user_id = '" + user_id +"'"
             result = await this.db_query(sql)
             console.log("user id "+ user_id + "has changed his skin  to "+ user_skin)
             response = json_maker.generic("ok","skin changed")
