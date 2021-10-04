@@ -153,7 +153,7 @@ class Handler {
 
     static change_username(params, cb){
         let user_id = params.user_id
-        let new_username = params.username
+        let new_username = params.new_username
         // let password = params.password
 
         let sql = "UPDATE STATIC_USER_TABLE SET username = " + "'" + new_username + "'" + " WHERE user_id = " + "'" + user_id + "'"
