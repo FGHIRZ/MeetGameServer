@@ -156,8 +156,8 @@ class Handler {
         let new_username = params.username
         // let password = params.password
 
+        let sql = "UPDATE STATIC_USER_TABLE SET user_name = " + "'" + new_username + "'" + " WHERE user_id = " + "'" + user_id + "'"
 
-        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, username) VALUES ('" + user_id +"','"+ new_username + "')"
         let response = ""
 
         connection.query(sql, (err) => {
