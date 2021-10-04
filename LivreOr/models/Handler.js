@@ -240,11 +240,10 @@ class Handler {
 
     static change_pseudo(params, cb){
         let user_id = params.user_id
-        let username = params.username
         let pseudo = params.pseudo
         let response = ""
 
-        let sql = "REPLACE INTO STATIC_USER_TABLE (username, pseudo) VALUES ('" + username +"','"+ pseudo + "')"
+        let sql = "REPLACE INTO STATIC_USER_TABLE pseudo VALUES '"+ pseudo + "' WHERE USER_ID = " + user_id
 
         connection.query(sql, (err) => {
             if (err){
