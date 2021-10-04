@@ -243,7 +243,7 @@ class Handler {
         let pseudo = params.user_pseudo
         let response = ""
 
-        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, pseudo) VALUES (" + user_id + ", '" + pseudo + "') 
+        let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, pseudo) VALUES (" + user_id + ", '" + pseudo + "')"
 
         connection.query(sql, (err) => {
             if (err){
