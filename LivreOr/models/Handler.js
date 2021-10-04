@@ -275,8 +275,8 @@ class Handler {
         })
     }
 
-    static update_dynamic_user_table(user_id, skin, pseudo, token){
-        let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin, pseudo, Token) VALUES"+ "('" + user_id + "', NOW(),'" + skin + "', '"+ pseudo + "', '" + token + "')"
+    static update_dynamic_user_table(user_id, user_skin, user_pseudo, token){
+        let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, user_skin, user_pseudo, Token) VALUES"+ "('" + user_id + "', NOW(),'" + user_skin + "', '"+ user_pseudo + "', '" + token + "')"
         connection.query(sql,(err, result) => {
             if (err) throw  err
         })
