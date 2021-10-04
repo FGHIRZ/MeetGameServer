@@ -40,6 +40,21 @@ app.post('/', (request,response) => {
     console.log("A request of type : ", request_type, " has been received")
 
     switch (request_type) {
+        case 'create_account':
+            Handler.create_account(request.body.params, function (status){
+                console.log("sending : ", JSON.stringify(status))
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
+
+        case 'delete_account':
+            Handler.delete_account(request.body.params, function (status){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(status))
+            })
+            break;
+
         case 'login':
               Handler.login(request.body.params, function (resp){
               console.log("sending back : ", resp)
@@ -56,6 +71,13 @@ app.post('/', (request,response) => {
             })
             break;
 
+        case 'get_event_list':
+            Handler.get_event_list(request.body.params, function (event_list){
+                response.setHeader('Content-Type', 'application/json');
+                response.end(JSON.stringify(event_list))
+            })
+            break;
+
        case 'create_event':
                     Handler.create_event(request.body.params, function (resp){
                       response.setHeader('Content-Type', 'application/json');
@@ -63,27 +85,6 @@ app.post('/', (request,response) => {
                     })
                     break;
 
-        case 'get_event_list':
-          Handler.get_event_list(request.body.params, function (event_list){
-            response.setHeader('Content-Type', 'application/json');
-            response.end(JSON.stringify(event_list))
-          })
-        break;
-
-        case 'create_account':
-            Handler.create_account(request.body.params, function (status){
-                console.log("sending : ", JSON.stringify(status))
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(status))
-            })
-            break;
-
-        case 'delete_account':
-            Handler.delete_account(request.body.params, function (status){
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(status))
-            })
-            break;
 
         case 'change_username':
             Handler.change_username(request.body.params, function (status){

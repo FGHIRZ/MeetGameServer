@@ -14,141 +14,28 @@ class Handler {
               })
     }
 
-    static async login (params, cb) {
-        let username = params.username
-        let password = params.password
-        try {
-            let response = await this.check_login_password(username, password)
-            let sql_query = "SELECT user_id, username, skin, pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
-            let select = await this.db_query(sql_query)
-            let user = select[0]
-            let token = tokenGenerator.getToken(8)
-            console.log(token)
-            this.update_dynamic_user_table(user.user_id, user.skin, user.pseudo, token)
-            response = json_maker.user(user, token)
-            cb(response)
-        } catch (e) {
-            cb(e)
-        }
-    }
-
-    static db_query(sql){
-      return new Promise(function(resolve, reject) {
-        connection.query(sql, (err, result) => {
-          if(err) return reject(err)
-          resolve(result)
-        })
-      })
-    }
-
-    static sync_db_query(sql){
-        connection.query(sql, (err, result) => {
-          if(err) return err
-          return result
-        })
-    }
-
-    static update_dynamic_user_table(user_id, skin, pseudo, token){
-        let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin, pseudo, Token) VALUES"+ "('" + user_id + "', NOW(),'" + skin + "', '"+ pseudo + "', '" + token + "')"
-        connection.query(sql,(err, result) => {
-            if (err) throw  err
-        })
-    }
-
-    static async check_login_password(username, password){
-      return new Promise(async (resolve, reject) => {
-
-        let sql_query = "SELECT username, password FROM STATIC_USER_TABLE WHERE username='" + username +"'"
-        let users = await this.db_query(sql_query)
-
-        if(users.length === 0){
-            let response =  json_maker.error(1, "this account does not exist")
-            reject(response)
-
-        }else{
-
-            let user = users[0]
-            if(user.password === password){
-                console.log("login and password are matching")
-                resolve(user)
-            }else{
-                let response = json_maker.error(2, "the username and the password does not match")
-                reject(response)
-            }
-        }
-      })
-    }
-
-    static async get_user_list (params, cb) {
-
-        let user_id = params.user_id
-        let lon = params.location.lon
-        let lat = params.location.lat
-        let visible = params.visible
-        if(visible)
-        {
-          let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
-          this.sync_db_query(sql)
-        }
-        let sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
-        let user_list = await this.db_query(sql)
-        let response = json_maker.user_list(user_list)
-        cb(response)
-    }
-
-    static async get_event_list (params, cb) {
-
-        let sql = "SELECT * FROM DYNAMIC_EVENT_TABLE"
-        let event_list = await this.db_query(sql)
-        let response = json_maker.event_list(event_list)
-        cb(response)
-    }
-
-    static async create_event(params, cb){
-
-            let type = params.type
-            let lat = params.location.lat
-            let lon = params.location.lon
-            let sql_query = "INSERT INTO DYNAMIC_EVENT_TABLE (type, creationdate, lat, lon) VALUES ('" + type + "', NOW() , " + lat + ", " + lon + ")"
-            this.sync_db_query(sql_query)
-            let response = json_maker.generic("ok" ,"event added")
-            cb(response)
-    }
-
     static async create_account(params, cb){
 
         let username = params.username
-        let skin = 'default_skin'
+        let user_skin = 'default_skin'
         let password = params.password
         //check if this username is already in the static user table
         let sql = "SELECT * FROM STATIC_USER_TABLE WHERE username='" + username +"'"
         let result = await this.db_query(sql)
         let response=""
         if (result.length === 0){
-          try {
-            await this.insert_account(username, skin, password)
-            let response = json_maker.generic("ok" ,"account added")
-            cb(response)
-          } catch (e) {
-            let response = json_maker.error(8, "A problem occured during the insert of account!")
-            cb(response)
-          }
+            try {
+                await this.insert_account(username, user_skin, password)
+                let response = json_maker.generic("ok" ,"account added")
+                cb(response)
+            } catch (e) {
+                let response = json_maker.error(8, "A problem occured during the insert of account!")
+                cb(response)
+            }
         }else{
             let response = json_maker.error(1, "This account already exists!")
             cb(response)
         }
-    }
-
-    static async insert_account(username, skin, password){
-
-      return new Promise(async (resolve, reject) => {
-        let sql = "INSERT INTO STATIC_USER_TABLE (username, skin, password, pseudo, created_at) VALUES ('" + username + "','" + skin + "','" + password + "','" + username + "', NOW() )"
-
-        connection.query(sql, (err) => {
-            if (err) reject(err)
-            resolve()
-        })
-      })
     }
 
     static async delete_account(params,cb){
@@ -178,14 +65,97 @@ class Handler {
                 }
             })
         }catch(error){
-            cb(error)
+            let response = json_maker.error("4","an error occured during the account removal process : " + error )
+            cb(response)
         }
 
     }
 
+    static async login (params, cb) {
+        let username = params.username
+        let password = params.password
+        try {
+            let response = await this.check_login_password(username, password)
+            let sql_query = "SELECT user_id, username, user_skin, user_pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
+            let select = await this.db_query(sql_query)
+            let user = select[0]
+            let token = tokenGenerator.getToken(8)
+            console.log(token)
+            this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo, token)
+            response = json_maker.user(user, token)
+            cb(response)
+        } catch (e) {
+            cb(e)
+        }
+    }
+
+    static async check_login_password(username, password){
+        return new Promise(async (resolve, reject) => {
+
+            let sql_query = "SELECT username, password FROM STATIC_USER_TABLE WHERE username='" + username +"'"
+            let users = await this.db_query(sql_query)
+
+            if(users.length === 0){
+                let response =  json_maker.error(1, "this account does not exist")
+                reject(response)
+
+            }else{
+
+                let user = users[0]
+                if(user.password === password){
+                    console.log("login and password are matching")
+                    resolve(user)
+                }else{
+                    let response = json_maker.error(2, "the username and the password does not match")
+                    reject(response)
+                }
+            }
+        })
+    }
+
+    static async get_user_list (params, cb) {
+
+        let user_id = params.user_id
+        let lon = params.user_location.lon
+        let lat = params.user_location.lat
+        let visible = params.visible
+        if(visible)
+        {
+          let sql = "UPDATE DYNAMIC_USER_TABLE SET TimeStampRefresh = NOW(), lon = " + lon + ", lat = " + lat + " WHERE user_id = " + user_id
+          this.sync_db_query(sql)
+        }
+        let sql = "SELECT * FROM DYNAMIC_USER_TABLE WHERE user_id <> " + user_id
+        let user_list = await this.db_query(sql)
+        let response = json_maker.user_list(user_list)
+        cb(response)
+    }
+
+    static async get_event_list (params, cb) {
+        // TODO pour plus tard , filtrer le contenu a requeter
+
+        let sql = "SELECT * FROM DYNAMIC_EVENT_TABLE"
+        let event_list = await this.db_query(sql)
+        let response = json_maker.event_list(event_list)
+        cb(response)
+    }
+
+    static async create_event(params, cb){
+
+            let event_type = params.event_type
+            let lat = params.event_location.lat
+            let lon = params.event_location.lon
+            let sql_query = "INSERT INTO DYNAMIC_EVENT_TABLE (event_type, creationdate, lat, lon) VALUES ('" + event_type + "', NOW() , " + lat + ", " + lon + ")"
+            this.sync_db_query(sql_query)
+            let response = json_maker.generic("ok" ,"event added")
+            cb(response)
+    }
+
+
     static change_username(params, cb){
         let user_id = params.user_id
         let new_username = params.username
+        // let password = params.password
+
 
         let sql = "REPLACE INTO STATIC_USER_TABLE (user_id, username) VALUES ('" + user_id +"','"+ new_username + "')"
         let response = ""
@@ -238,26 +208,28 @@ class Handler {
 
     }
 
-    static change_pseudo(params, cb){
+    static async change_pseudo(params, cb){
+
         let user_id = params.user_id
         let user_pseudo = params.user_pseudo
         let response = ""
 
-        let sql = "UPDATE STATIC_USER_TABLE SET user_pseudo = " + "'" + user_pseudo + "'" + " WHERE user_id = " + "'" + user_id + "'"
+        try{
 
-        connection.query(sql, (err) => {
-            if (err){
-                throw  err
-                response = json_maker.error("7","an error occured during the pseudo change process")
-                cb(response)
+            let sql = "UPDATE STATIC_USER_TABLE SET user_pseudo = " + "'" + user_pseudo + "'" + " WHERE user_id = " + "'" + user_id + "'"
 
-            }else{
-                console.log("user id "+ user_id + "has changed his pseudo from to "+ pseudo)
-                response = json_maker.generic("ok","pseudo changed")
-                cb(response)
-            }
-        })
+            let result = await this.db_query(sql)
 
+            sql = "UPDATE DYNAMIC_USER_TABLE SET user_pseudo = " + "'" + user_pseudo + "'" + " WHERE user_id = " + "'" + user_id + "'"
+            result = await this.db_query(sql)
+            console.log("user id "+ user_id + " has changed his pseudo to "+ user_pseudo)
+            response = json_maker.generic("ok","pseudo changed")
+            cb(response)
+
+        }catch(e){
+            let response = json_maker.error("13","an error occured during the pseudo change process : " + e)
+            cb(response)
+        }
     }
 
     static async change_skin(params, cb){
@@ -265,16 +237,15 @@ class Handler {
         let user_id = params.user_id
         let user_skin = params.user_skin
         let response = ""
-        console.log("user id :" + user_id + "; selected_skin :" + user_skin)
 
         try{
 
-            let sql = "UPDATE STATIC_USER_TABLE SET skin = " + "'" + user_skin + "'" + " WHERE user_id = " + "'" + user_id + "'"
+            let sql = "UPDATE STATIC_USER_TABLE SET user_skin = " + "'" + user_skin + "'" + " WHERE user_id = " + "'" + user_id + "'"
 
             let result = await this.db_query(sql)
 
 
-            sql = "UPDATE DYNAMIC_USER_TABLE SET skin = " + "'" + user_skin + "'" + " WHERE user_id = " + "'" + user_id + "'"
+            sql = "UPDATE DYNAMIC_USER_TABLE SET user_skin = " + "'" + user_skin + "'" + " WHERE user_id = " + "'" + user_id + "'"
             result = await this.db_query(sql)
             console.log("user id "+ user_id + " has changed his skin  to "+ user_skin)
             response = json_maker.generic("ok","skin changed")
@@ -284,6 +255,43 @@ class Handler {
             let response = json_maker.error("12","an error occured during the skin change process : " + e)
             cb(response)
         }
+    }
+
+
+
+    static db_query(sql){
+        return new Promise(function(resolve, reject) {
+            connection.query(sql, (err, result) => {
+                if(err) return reject(err)
+                resolve(result)
+            })
+        })
+    }
+
+    static sync_db_query(sql){
+        connection.query(sql, (err, result) => {
+            if(err) return err
+            return result
+        })
+    }
+
+    static update_dynamic_user_table(user_id, skin, pseudo, token){
+        let sql = "REPLACE INTO DYNAMIC_USER_TABLE (user_id, TimeStampRefresh, skin, pseudo, Token) VALUES"+ "('" + user_id + "', NOW(),'" + skin + "', '"+ pseudo + "', '" + token + "')"
+        connection.query(sql,(err, result) => {
+            if (err) throw  err
+        })
+    }
+
+    static async insert_account(username, user_skin, password){
+
+        return new Promise(async (resolve, reject) => {
+            let sql = "INSERT INTO STATIC_USER_TABLE (username, user_skin, password, user_pseudo, created_at) VALUES ('" + username + "','" + user_skin + "','" + password + "','" + username + "', NOW() )"
+
+            connection.query(sql, (err) => {
+                if (err) reject(err)
+                resolve()
+            })
+        })
     }
 
     static async checkToken(params, cb){
@@ -297,9 +305,9 @@ class Handler {
             let response = await this.db_query(sql_query)
 
             if (response === token){
-                 json_response = json_maker.generic("ok","Token OK")
+                json_response = json_maker.generic("ok","Token OK")
             }else{
-                 json_response = json_maker.error(10,"Token is incorrect")
+                json_response = json_maker.error(10,"Token is incorrect")
             }
             cb (json_response)
 

@@ -59,8 +59,8 @@ class json_maker{
        console.log(token)
         let params = {
             "user_id" : user.user_id,
-            "skin" : user.skin,
-            "pseudo" : user.pseudo,
+            "user_skin" : user.user_skin,
+            "user_pseudo" : user.user_pseudo,
             "token" : token
         }
         let output = {
