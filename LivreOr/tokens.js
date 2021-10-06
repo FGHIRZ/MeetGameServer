@@ -17,7 +17,8 @@ class token_manager{
 
   static printToken()
   {
-    console.log(process.env.TOKEN_SECRET as string)
+    let test = process.env.TOKEN_SECRET;
+    console.log(test)
   }
 
   static authenticateToken(req, res, next) {
