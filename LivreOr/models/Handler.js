@@ -87,7 +87,7 @@ class Handler {
         }
     }
 
-    static async get_my_infos(params, cb)
+    static async get_my_info(params, cb)
     {
       let user_id = params.user_id
       try {

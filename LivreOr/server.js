@@ -81,8 +81,8 @@ app.post('/app', token_manager.authenticateToken, (request,response) => {
   switch (request_type) {
 
 
-    case 'get_my_infos':
-        Handler.get_my_infos(request.body.params, function (user_infos){
+    case 'get_my_info':
+        Handler.get_my_info(request.body.params, function (user_infos){
           response.setHeader('Content-Type', 'application/json');
           response.end(JSON.stringify(user_infos))
         })
