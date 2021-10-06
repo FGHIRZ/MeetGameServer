@@ -156,7 +156,7 @@ app.get('/skins', (request,response) => {
    response.end(JSON.stringify(file_list_json))
 })
 
-app.get('/events', token_manager.authenticateToken, (request,response) => {
+app.get('/events', (request,response) => {
 
   let file_list = fs.readdirSync(eventFolder)
   file_list.forEach((file, i) => {
