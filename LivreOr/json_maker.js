@@ -84,8 +84,6 @@ class json_maker{
         return output
     }
 
-
-
 }
 
 module.exports = json_maker
