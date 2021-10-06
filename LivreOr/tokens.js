@@ -19,7 +19,7 @@ class token_manager{
 
   static generateAccessToken(username) {
     dotenv.config();
-    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+    return jwt.sign(username, process.env.TOKEN_SECRET);
   }
 }
 
