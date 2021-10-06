@@ -147,12 +147,7 @@ app.get('/skins', (request,response) => {
    response.end(JSON.stringify(file_list_json))
 })
 
-var myLogger = function (req, res, next) {
-  console.log('LOGGED')
-  next()
-}
-
-app.get('/events', myLogger, (request,response) => {
+app.get('/events', token_manager.authenticateToken, (request,response) => {
 
   let file_list = fs.readdirSync(eventFolder)
   file_list.forEach((file, i) => {
