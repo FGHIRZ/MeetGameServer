@@ -92,7 +92,7 @@ class Handler {
       console.log("doing info")
       let user_id = params.user_id
       try {
-          let sql_query = "SELECT user_id, user_skin, user_pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
+          let sql_query = "SELECT user_id, user_skin, user_pseudo  FROM STATIC_USER_TABLE WHERE user_id='" + user_id +"'"
           let select = await this.db_query(sql_query)
           let user = select[0]
           this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
@@ -102,7 +102,7 @@ class Handler {
           cb(e)
       }
     }
-    
+
     static async check_login_password(username, password){
         return new Promise(async (resolve, reject) => {
 
