@@ -23,6 +23,7 @@ class token_manager{
   }
 
   static authenticateToken(req, res, next) {
+  dotenv.config();
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
 

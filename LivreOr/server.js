@@ -2,6 +2,7 @@ let express = require('express')
 let app = express()
 let bodyParser = require('body-parser')
 let session = require('express-session')
+const token_manager = require('tokens')
 const Handler = require("./models/Handler")
 
 
@@ -20,6 +21,7 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 app.use(express.json())
+
 
 app.use(session({
   secret: 'secretkey',
@@ -46,7 +48,6 @@ app.post('/login', (request, response) => {
 
 app.post('/manage_account', (request, response)=>{
 
-
   let request_type = request.body.request
   switch (request_type) {
       case 'create_account':
@@ -67,67 +68,67 @@ app.post('/manage_account', (request, response)=>{
           break;
 })
 
-app.post('/app', (request,response) => {
+app.post('/app', token_manager.authenticateToken, (request,response) => {
 
-    console.log("message reçu", request.body.params)
+  console.log("received request : ", request.body.params)
 
-    //let Handler = require('./models/Handler')
-    let request_type = request.body.request
-    console.log("A request of type : ", request_type, " has been received")
+  //let Handler = require('./models/Handler')
+  let request_type = request.body.request
+  console.log("A request of type : ", request_type, " has been received")
 
-    switch (request_type) {
+  switch (request_type) {
 
-        case 'get_user_list':
-            Handler.get_user_list(request.body.params, function (user_list){
+      case 'get_user_list':
+          Handler.get_user_list(request.body.params, function (user_list){
+            response.setHeader('Content-Type', 'application/json');
+            response.end(JSON.stringify(user_list))
+          })
+          break;
+
+      case 'get_event_list':
+          Handler.get_event_list(request.body.params, function (event_list){
               response.setHeader('Content-Type', 'application/json');
-              response.end(JSON.stringify(user_list))
-            })
-            break;
+              response.end(JSON.stringify(event_list))
+          })
+          break;
 
-        case 'get_event_list':
-            Handler.get_event_list(request.body.params, function (event_list){
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(event_list))
-            })
-            break;
-
-       case 'create_event':
-                    Handler.create_event(request.body.params, function (resp){
-                      response.setHeader('Content-Type', 'application/json');
-                      response.end(JSON.stringify(resp))
-                    })
-                    break;
+     case 'create_event':
+                  Handler.create_event(request.body.params, function (resp){
+                    response.setHeader('Content-Type', 'application/json');
+                    response.end(JSON.stringify(resp))
+                  })
+                  break;
 
 
-        case 'change_username':
-            Handler.change_username(request.body.params, function (status){
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(status))
-            })
-            break;
-        case 'change_password':
-            Handler.change_password(request.body.params, function (status){
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(status))
-            })
-            break;
-        case 'change_pseudo':
-            Handler.change_pseudo(request.body.params, function (status){
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(status))
-            })
-            break;
-        case 'change_skin':
-            Handler.change_skin(request.body.params, function (status){
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(status))
-            })
-            break;
+      case 'change_username':
+          Handler.change_username(request.body.params, function (status){
+              response.setHeader('Content-Type', 'application/json');
+              response.end(JSON.stringify(status))
+          })
+          break;
+      case 'change_password':
+          Handler.change_password(request.body.params, function (status){
+              response.setHeader('Content-Type', 'application/json');
+              response.end(JSON.stringify(status))
+          })
+          break;
+      case 'change_pseudo':
+          Handler.change_pseudo(request.body.params, function (status){
+              response.setHeader('Content-Type', 'application/json');
+              response.end(JSON.stringify(status))
+          })
+          break;
+      case 'change_skin':
+          Handler.change_skin(request.body.params, function (status){
+              response.setHeader('Content-Type', 'application/json');
+              response.end(JSON.stringify(status))
+          })
+          break;
 
 
-        default:
-            console.log("this request isn't recognized");
-    }
+      default:
+          console.log("this request isn't recognized");
+  }
 })
 
 app.get('/skins', (request,response) => {
