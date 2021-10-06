@@ -170,7 +170,7 @@ app.get('/events', (request,response) => {
    response.end(JSON.stringify(file_list_json))
 })
 
-console.log('server is running on port 8080')
+console.log('server is running on port 80')
 console.log('cleaning dynamic tables')
 Handler.empty_dynamic_tables()
 
