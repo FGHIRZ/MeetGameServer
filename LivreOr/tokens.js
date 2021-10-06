@@ -32,7 +32,6 @@ class token_manager{
       jwt.verify(token, token_secret, (err, verifiedJwt) => {
       console.log(err)
       if (err) return res.sendStatus(403)
-      req.user = user
       next()
   })
   }
