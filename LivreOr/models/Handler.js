@@ -95,9 +95,9 @@ class Handler {
           let sql_query = "SELECT user_id, user_skin, user_pseudo  FROM STATIC_USER_TABLE WHERE user_id='" + user_id +"'"
           let select = await this.db_query(sql_query)
           let user = select[0]
-          console.log(user)
           this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
           response = json_maker.user(user)
+          console.log("response : ", response)
           cb(response)
       } catch (e) {
           cb(e)
