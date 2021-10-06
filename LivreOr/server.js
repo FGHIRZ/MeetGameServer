@@ -2,8 +2,8 @@ let express = require('express')
 let app = express()
 let bodyParser = require('body-parser')
 let session = require('express-session')
-const token_manager = require('tokens')
 const Handler = require("./models/Handler")
+const json_maker = require("./tokens");
 
 
 
@@ -21,6 +21,7 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 app.use(express.json())
+
 
 
 app.use(session({
