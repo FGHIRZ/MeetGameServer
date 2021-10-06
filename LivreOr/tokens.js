@@ -19,7 +19,7 @@ class token_manager{
 
   static generateAccessToken(username) {
     dotenv.config();
-    return jwt.sign(username, process.env.TOKEN_SECRET, {
+    return jwt.sign({username : username}, process.env.TOKEN_SECRET, {
       algorithm: "HS256",
       expiresIn: 3600
     });
@@ -27,7 +27,7 @@ class token_manager{
 
   static generateRefreshToken(username) {
     dotenv.config();
-    return jwt.sign(username, process.env.TOKEN_SECRET, {
+    return jwt.sign({username : username}, process.env.TOKEN_SECRET, {
       algorithm: "HS256",
       expiresIn: 86400
     });
