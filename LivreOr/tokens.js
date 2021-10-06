@@ -5,8 +5,10 @@ const dotenv = require('dotenv');
 //a class made to make all methodes of making a json message
 class token_manager{
 
-  dotenv.config();
-  process.env.TOKEN_SECRET;
+  function init()
+  {
+      dotenv.config();
+  }
 
   function generateToken()
   {
@@ -37,5 +39,6 @@ class token_manager{
 }
 
 
+token_manager.init()
 token_manager.printToken()
 module.exports = token_manager
