@@ -96,6 +96,7 @@ class Handler {
           let select = await this.db_query(sql_query)
           let user = select[0]
           this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
+          console.log("user : ", user)
           response = json_maker.user(user)
           console.log("response : ", response)
           cb(response)
