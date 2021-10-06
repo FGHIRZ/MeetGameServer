@@ -1,6 +1,6 @@
 let connection = require('../config/db')
 const json_maker = require("../json_maker");
-const token_manager = require("./tokens");
+const token_manager = require("../tokens");
 
 class Handler {
 
