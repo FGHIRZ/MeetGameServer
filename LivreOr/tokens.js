@@ -22,7 +22,7 @@ class token_manager{
     return jwt.sign(username, process.env.TOKEN_SECRET);
   }
 
-  function authenticateToken(req, res, next) {
+  static authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
 
