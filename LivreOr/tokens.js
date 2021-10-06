@@ -13,6 +13,11 @@ class token_manager{
     token = require('crypto').randomBytes(64).toString('hex')
   }
 
+  function printToken()
+  {
+    console.log(process.env.TOKEN_SECRET as string)
+  }
+
   function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
@@ -31,4 +36,6 @@ class token_manager{
 }
 }
 
+
+token_manager.printToken()
 module.exports = token_manager
