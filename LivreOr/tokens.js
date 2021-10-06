@@ -28,7 +28,7 @@ class token_manager{
 
   if (token == null) return res.sendStatus(401)
       let token_secret = process.env.TOKEN_SECRET
-      jwt.verify(token, token_secret, (err: any, user: any) => {
+      jwt.verify(token, token_secret, (err, verifiedJwt) => {
       console.log(err)
       if (err) return res.sendStatus(403)
       req.user = user
