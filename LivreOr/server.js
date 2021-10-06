@@ -83,6 +83,7 @@ app.post('/app', token_manager.authenticateToken, (request,response) => {
 
     case 'get_my_info':
         Handler.get_my_info(request.body.params, function (user_infos){
+          console.log("doing callback")
           response.setHeader('Content-Type', 'application/json');
           response.end(JSON.stringify(user_infos))
         })
