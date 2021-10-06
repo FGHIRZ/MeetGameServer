@@ -8,7 +8,7 @@ var myLogger = function (req, res, next) {
 
 app.use(myLogger)
 
-app.get('/', function (req, res) {
+app.get('/test', function (req, res) {
   res.send('Hello World!')
 })
 

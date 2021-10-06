@@ -66,7 +66,8 @@ app.post('/manage_account', (request, response)=>{
               response.end(JSON.stringify(status))
           })
           break;
-})
+        }
+}
 
 app.post('/app', token_manager.authenticateToken, (request,response) => {
 
