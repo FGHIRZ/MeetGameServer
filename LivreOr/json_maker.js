@@ -80,6 +80,7 @@ class json_maker{
             "status" : "ok",
             "params" : params
         }
+        console.log("output : ", output)
         return output
     }
 
