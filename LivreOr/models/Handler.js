@@ -80,7 +80,7 @@ class Handler {
             let select = await this.db_query(sql_query)
             let user = select[0]
             let access_token = token_manager.generateAccessToken(username)
-            console.log(token)
+            console.log(access_token)
             this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
             response = json_maker.user(user, access_token)
             cb(response)
