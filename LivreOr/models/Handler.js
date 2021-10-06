@@ -1,6 +1,6 @@
 let connection = require('../config/db')
 const json_maker = require("../json_maker");
-const tokenGenerator = require("../TokenGenerator");
+const token_manager = require("./tokens");
 
 class Handler {
 
@@ -79,10 +79,10 @@ class Handler {
             let sql_query = "SELECT user_id, username, user_skin, user_pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
             let select = await this.db_query(sql_query)
             let user = select[0]
-            let token = tokenGenerator.getToken(8)
+            let access_token = token_manager.generateAccessToken(username)
             console.log(token)
-            this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo, token)
-            response = json_maker.user(user, token)
+            this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
+            response = json_maker.user(user, access_token)
             cb(response)
         } catch (e) {
             cb(e)
