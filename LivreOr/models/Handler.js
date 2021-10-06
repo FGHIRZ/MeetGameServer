@@ -76,19 +76,31 @@ class Handler {
         let password = params.password
         try {
             let response = await this.check_login_password(username, password)
-            let sql_query = "SELECT user_id, username, user_skin, user_pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
+            let sql_query = "SELECT user_id FROM STATIC_USER_TABLE WHERE username='" + username +"'"
             let select = await this.db_query(sql_query)
             let user = select[0]
             let access_token = token_manager.generateAccessToken(username)
-            console.log(access_token)
-            this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
-            response = json_maker.user(user, access_token)
+            response = json_maker.user_token(user, access_token)
             cb(response)
         } catch (e) {
             cb(e)
         }
     }
 
+    static async get_my_infos(params, cb)
+    {
+      let user_id = params.user_id
+      try {
+          let sql_query = "SELECT user_id, user_skin, user_pseudo  FROM STATIC_USER_TABLE WHERE username='" + username +"'"
+          let select = await this.db_query(sql_query)
+          let user = select[0]
+          this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
+          response = json_maker.user(user)
+          cb(response)
+      } catch (e) {
+          cb(e)
+      }
+    }
     static async check_login_password(username, password){
         return new Promise(async (resolve, reject) => {
 
