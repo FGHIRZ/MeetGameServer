@@ -67,7 +67,7 @@ app.post('/manage_account', (request, response)=>{
           })
           break;
         }
-}
+})
 
 app.post('/app', token_manager.authenticateToken, (request,response) => {
 
