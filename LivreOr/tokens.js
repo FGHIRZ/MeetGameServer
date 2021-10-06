@@ -5,11 +5,6 @@ const dotenv = require('dotenv');
 //a class made to make all methodes of making a json message
 class token_manager{
 
-  static init()
-  {
-      dotenv.config();
-  }
-
   static generateToken()
   {
     token = require('crypto').randomBytes(64).toString('hex')
@@ -17,12 +12,18 @@ class token_manager{
 
   static printToken()
   {
+    dotenv.config();
     let test = process.env.TOKEN_SECRET;
     console.log(test)
+  }
+
+  static generateAccessToken(username) {
+    dotenv.config();
+    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
   }
 }
 
 
-token_manager.init()
-token_manager.printToken()
+test = token_manager.generateAccessToken("balo")
+console.log(test)
 module.exports = token_manager
