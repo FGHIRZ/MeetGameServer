@@ -30,8 +30,44 @@ app.use(session({
 
 app.use(require('./middleware/flash'))
 
+app.post('/login', (request, response) => {
+  let request_type = request.body.request
+  if(request_type=='login')
+  {
+    console.log("Login request received")
+    Handler.login(request.body.params, function (resp){
+      console.log("sending back : ", resp)
+      response.setHeader('Content-Type', 'application/json')
+      response.end(JSON.stringify(resp))
+      console.log("renvoi : ", JSON.stringify(resp))
+    })
+  }
+})
 
-app.post('/', (request,response) => {
+app.post('/manage_account', (request, response)=>{
+
+
+  let request_type = request.body.request
+  switch (request_type) {
+      case 'create_account':
+          console.log("Account creation request received")
+          Handler.create_account(request.body.params, function (status){
+              console.log("sending : ", JSON.stringify(status))
+              response.setHeader('Content-Type', 'application/json');
+              response.end(JSON.stringify(status))
+          })
+          break;
+
+      case 'delete_account':
+          console.log("Account deletion request received")
+          Handler.delete_account(request.body.params, function (status){
+              response.setHeader('Content-Type', 'application/json');
+              response.end(JSON.stringify(status))
+          })
+          break;
+})
+
+app.post('/app', (request,response) => {
 
     console.log("message reçu", request.body.params)
 
@@ -40,30 +76,7 @@ app.post('/', (request,response) => {
     console.log("A request of type : ", request_type, " has been received")
 
     switch (request_type) {
-        case 'create_account':
-            Handler.create_account(request.body.params, function (status){
-                console.log("sending : ", JSON.stringify(status))
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(status))
-            })
-            break;
 
-        case 'delete_account':
-            Handler.delete_account(request.body.params, function (status){
-                response.setHeader('Content-Type', 'application/json');
-                response.end(JSON.stringify(status))
-            })
-            break;
-
-        case 'login':
-              Handler.login(request.body.params, function (resp){
-              console.log("sending back : ", resp)
-              response.setHeader('Content-Type', 'application/json')
-              response.end(JSON.stringify(resp))
-              console.log("renvoi : ", JSON.stringify(resp))
-            })
-
-            break;
         case 'get_user_list':
             Handler.get_user_list(request.body.params, function (user_list){
               response.setHeader('Content-Type', 'application/json');
@@ -115,7 +128,6 @@ app.post('/', (request,response) => {
         default:
             console.log("this request isn't recognized");
     }
-
 })
 
 app.get('/skins', (request,response) => {
