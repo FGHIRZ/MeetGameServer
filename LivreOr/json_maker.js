@@ -70,6 +70,7 @@ class json_maker{
 
     static user(user)
     {
+        console.log("doing my job")
         let params = {
             "user_id" : user.user_id,
             "user_skin" : user.user_skin,
