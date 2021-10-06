@@ -5,22 +5,22 @@ const dotenv = require('dotenv');
 //a class made to make all methodes of making a json message
 class token_manager{
 
-  function init()
+  static init()
   {
       dotenv.config();
   }
 
-  function generateToken()
+  static generateToken()
   {
     token = require('crypto').randomBytes(64).toString('hex')
   }
 
-  function printToken()
+  static printToken()
   {
     console.log(process.env.TOKEN_SECRET as string)
   }
 
-  function authenticateToken(req, res, next) {
+  static authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
 
