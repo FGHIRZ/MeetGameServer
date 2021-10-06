@@ -19,7 +19,18 @@ class token_manager{
 
   static generateAccessToken(username) {
     dotenv.config();
-    return jwt.sign(username, process.env.TOKEN_SECRET);
+    return jwt.sign(username, process.env.TOKEN_SECRET, {
+      algorithm: "HS256",
+      expiresIn: 3600
+    });
+  }
+
+  static generateRefreshToken(username) {
+    dotenv.config();
+    return jwt.sign(username, process.env.TOKEN_SECRET, {
+      algorithm: "HS256",
+      expiresIn: 86400
+    });
   }
 
   static authenticateToken(req, res, next) {

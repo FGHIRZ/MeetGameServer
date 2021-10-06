@@ -174,4 +174,4 @@ console.log('server is running on port 8080')
 console.log('cleaning dynamic tables')
 Handler.empty_dynamic_tables()
 
-app.listen(8080)
+app.listen(80)
