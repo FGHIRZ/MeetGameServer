@@ -97,9 +97,8 @@ class Handler {
           let user = select[0]
           this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
           console.log("user : ", user)
-          let user_info = json_maker.user(user);
-          console.log("response : ", response)
-          cb(user_info)
+          let response = json_maker.user(user);
+          cb(response)
       } catch (e) {
           cb(e)
       }
