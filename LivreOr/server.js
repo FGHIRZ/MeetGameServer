@@ -196,6 +196,4 @@ console.log('cleaning dynamic tables')
 Handler.empty_dynamic_tables()
 
 // http.createServer(app).listen(80);
-key = fs.readFileSync('key.pem')
-console.log(key)
-https.createServer(options, app).listen(8080);
+https.createServer(options, app).listen(80);
