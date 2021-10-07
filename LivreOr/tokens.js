@@ -14,7 +14,6 @@ class token_manager{
   {
     dotenv.config();
     let token = process.env.TOKEN_SECRET;
-    console.log(token)
   }
 
   static generateAccessToken(userId) {

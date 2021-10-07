@@ -43,8 +43,6 @@ class Handler {
         let username = params.username
         let password = params.password
 
-        console.log(params)
-
         try {
             let response = await this.check_login_password(username, password)
 
@@ -102,7 +100,6 @@ class Handler {
           let select = await this.db_query(sql_query)
           let user = select[0]
           this.update_dynamic_user_table(user.user_id, user.user_skin, user.user_pseudo)
-          console.log("user : ", user)
           let response = json_maker.user(user);
           cb(response)
       } catch (e) {
