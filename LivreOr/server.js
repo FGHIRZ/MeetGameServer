@@ -16,8 +16,8 @@ const fs = require('fs')
 
 
 const options = {
-    key: fs.readFileSync('privkey.pem'),
-    cert: fs.readFileSync('fullchain.pem')
+    key: fs.readFileSync('/etc/letsencrypt/live/www.meetgames.fr/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/www.meetgames.fr/fullchain.pem')
 };
 
 // Moteur de template
