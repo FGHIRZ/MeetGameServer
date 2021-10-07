@@ -70,7 +70,7 @@ class json_maker{
     {
         let params = {
             "user_id" : user.user_id,
-            "refresh_token" : access_token
+            "refresh_token" : refresh_token
         }
         let output = {
             "status" : "ok",
