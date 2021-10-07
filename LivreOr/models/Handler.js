@@ -73,7 +73,7 @@ class Handler {
     static get_access_token(params, cb){
       let user_id = params.user_id
       let access_token = token_manager.generateAccessToken(user_id)
-      let resp = json_maker.access_token(access_token)
+      let response = json_maker.access_token(access_token)
       cb(response)
     }
 
