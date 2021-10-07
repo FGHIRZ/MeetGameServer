@@ -68,7 +68,13 @@ class Handler {
             let response = json_maker.error("4","an error occured during the account removal process : " + error )
             cb(response)
         }
+    }
 
+    static get_access_token(params, cb){
+      let userId = params.user_id
+      access_token = _manager.generateAccessToken(userId)
+      let response = json_maker.access_token(access_token)
+      cb(response)
     }
 
     static async login (params, cb) {
@@ -79,8 +85,8 @@ class Handler {
             let sql_query = "SELECT user_id FROM STATIC_USER_TABLE WHERE username='" + username +"'"
             let select = await this.db_query(sql_query)
             let user = select[0]
-            let access_token = token_manager.generateAccessToken(params.username)
-            response = json_maker.user_token(user, access_token)
+            let refresh_token = token_manager.generateRefreshToken(params.username)
+            response = json_maker.refresh_token(user, refresh_token)
             cb(response)
         } catch (e) {
             cb(e)

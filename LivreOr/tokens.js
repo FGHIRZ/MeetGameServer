@@ -17,9 +17,9 @@ class token_manager{
     console.log(token)
   }
 
-  static generateAccessToken(username) {
+  static generateAccessToken(userId) {
     dotenv.config();
-    return jwt.sign({username : username}, process.env.TOKEN_SECRET, {
+    return jwt.sign({userId : userId}, process.env.TOKEN_SECRET, {
       algorithm: "HS256",
       expiresIn: 3600
     });

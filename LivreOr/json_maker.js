@@ -54,12 +54,23 @@ class json_maker{
         return output
     }
 
-    static user_token(user, access_token)
+    static access_token(user, access_token)
     {
-       console.log(access_token)
+        let params = {
+            "access_token" : access_token
+        }
+        let output = {
+            "status" : "ok",
+            "params" : params
+        }
+        return output
+    }
+
+    static refresh_token(user, refresh_token)
+    {
         let params = {
             "user_id" : user.user_id,
-            "access_token" : access_token
+            "refresh_token" : access_token
         }
         let output = {
             "status" : "ok",

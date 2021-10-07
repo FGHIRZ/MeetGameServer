@@ -55,6 +55,19 @@ app.post('/login', (request, response) => {
   }
 })
 
+app.post('/get_access_token', (request, response)=>{
+
+  let request_type = request.body.request
+  console.log("Access token required")
+  Handler.get_access_token(request.body.params, function (status){
+      console.log("sending : ", JSON.stringify(status))
+              response.setHeader('Content-Type', 'application/json');
+              response.end(JSON.stringify(status))
+          })
+
+
+})
+
 app.post('/manage_account', (request, response)=>{
 
   let request_type = request.body.request
@@ -184,4 +197,3 @@ Handler.empty_dynamic_tables()
 
 // http.createServer(app).listen(80);
 https.createServer(options, app).listen(80); //initialy on port 443
-
