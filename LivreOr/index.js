@@ -13,7 +13,10 @@ const users = [
   },
 ]
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => {
+  console.log(req.headers.host)
+  res.send('Hello World!')
+})
 
 app.get('/:username', (req, res) => {
   console.log(req.headers.host)
