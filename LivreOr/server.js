@@ -12,8 +12,18 @@ const skinFolder = './public/skins'
 const eventFolder = './public/events'
 const fs = require('fs')
 
+const https = require('https');
+
+const options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+};
+
+let app = express.createServer(options);
+
 // Moteur de template
 app.set('view engine', 'ejs')
+
 
 //MiddleWare
 app.use('/assets', express.static('public'))
