@@ -54,7 +54,7 @@ class json_maker{
         return output
     }
 
-    static access_token(user, access_token)
+    static access_token(access_token)
     {
         let params = {
             "access_token" : access_token
