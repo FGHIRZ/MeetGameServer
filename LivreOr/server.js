@@ -18,6 +18,8 @@ const fs = require('fs')
 const options = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
+    console.log("key : ", key)
+    console.log("cert : ", cert)
 };
 
 // Moteur de template
@@ -196,4 +198,4 @@ console.log('cleaning dynamic tables')
 Handler.empty_dynamic_tables()
 
 // http.createServer(app).listen(80);
-https.createServer(options, app).listen(80); //initialy on port 443
+https.createServer(options, app).listen(8080);
