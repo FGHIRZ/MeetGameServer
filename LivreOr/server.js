@@ -1,4 +1,5 @@
 let express = require('express')
+let app = express()
 let bodyParser = require('body-parser')
 let session = require('express-session')
 const Handler = require("./models/Handler")
@@ -18,7 +19,7 @@ const options = {
     cert: fs.readFileSync('cert.pem')
 };
 
-let app = express.createServer(options);
+app = express.createServer(options);
 
 // Moteur de template
 app.set('view engine', 'ejs')
