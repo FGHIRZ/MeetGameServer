@@ -1,5 +1,4 @@
 let express = require('express')
-let app = express()
 let bodyParser = require('body-parser')
 let session = require('express-session')
 const Handler = require("./models/Handler")
