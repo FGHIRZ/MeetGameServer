@@ -14,6 +14,7 @@ const users = [
 ]
 
 app.get('/', (req, res) => res.send('Hello World!'))
+
 app.get('/:username', (req, res) => {
   const user = users.find(
     user => user.username === req.params.username
@@ -23,6 +24,19 @@ app.get('/:username', (req, res) => {
   }
 
   return res.send(`${user.name}, Hello World!`)
+});
+
+app.use((req, res, next) => {
+  if (req.hostname === 'meetgames.fr') {
+    return next();
+  }
+
+  const user = users.find(user => user.domain === req.hostname);
+  if (!user) {
+    return res.sendStatus(404);
+  }
+
+  return res.send(`${user.username}, Hello World!`);
 });
 
 app.listen(port, () => console.log('Server ON!'))
