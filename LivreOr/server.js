@@ -15,7 +15,6 @@ const eventFolder = './public/events'
 const fs = require('fs')
 
 
-
 const options = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
@@ -31,7 +30,6 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 app.use(express.json())
-
 
 
 app.use(session({
