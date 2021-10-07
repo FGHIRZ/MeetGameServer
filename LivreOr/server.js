@@ -1,4 +1,6 @@
 let express = require('express')
+const https = require('https');
+var http = require('http');
 let app = express()
 let bodyParser = require('body-parser')
 let session = require('express-session')
@@ -12,14 +14,12 @@ const skinFolder = './public/skins'
 const eventFolder = './public/events'
 const fs = require('fs')
 
-const https = require('https');
+
 
 const options = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
 };
-
-app = express.createServer(options);
 
 // Moteur de template
 app.set('view engine', 'ejs')
@@ -184,4 +184,6 @@ console.log('server is running on port 80')
 console.log('cleaning dynamic tables')
 Handler.empty_dynamic_tables()
 
-app.listen(80)
+// http.createServer(app).listen(80);
+https.createServer(options, app).listen(80); //initialy on port 443
+
